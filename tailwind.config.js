@@ -3,9 +3,9 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
-      backgroundImage: {
-        gradient: "url('./src/assets/images/bg-image-authenticate.png')",
-      },
+      // backgroundImage: {
+      //   gradient: "url('./src/assets/images/truonghoc.jpg')",
+      // },
       color: {
         primary: {
           50: '#eff6ff',
