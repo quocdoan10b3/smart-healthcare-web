@@ -5,17 +5,51 @@ import './index.css'
 import Login from './components/Authenticate/Login'
 import { Flip, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import AuthenticationRoute from './routes/authenticate-route'
+import MainLayout from './layouts/StudentLayout.tsx/StudentLayout'
+import HomePage from './pages/HomePage'
+import { useDispatch } from 'react-redux'
+import { saveUserLogin } from './redux-toolkit/auth.slice'
+import { UserType } from './@types/user'
+import AdminLayout from './layouts/AdminLayout/AdminLayout'
+import Dashboard from './pages/Admin/Dashboard/Dashboard'
+import AdminManageHealthRecords from './pages/Admin/ManageHealthRecords/AdminManageHealthRecords'
+import AdminManageHealthInsurances from './pages/Admin/ManageHealthInsurances/AdminManageHealthInsurances'
 function App() {
   const theme = createTheme({
     typography: {
       fontFamily: 'Lexend'
     }
   })
+  const dispatch = useDispatch()
+  const userLocal = localStorage.getItem('user')
+  const accessTokenLocal = localStorage.getItem('accessToken')
+  const refreshTokenLocal = localStorage.getItem('refreshToken')
+  const roleLocal = localStorage.getItem('role')
+  let user: UserType | null = null
+  let accessToken: string | null = null
+  let refreshToken: string | null = null
+  let role: string | null = null
+  if (userLocal !== null && accessTokenLocal !== null && refreshTokenLocal !== null && roleLocal !== null) {
+    user = JSON.parse(userLocal)
+    accessToken = JSON.parse(accessTokenLocal)
+    refreshToken = JSON.parse(refreshTokenLocal)
+    role = JSON.parse(roleLocal)
+    dispatch(saveUserLogin({ user, accessToken, refreshToken, role }))
+  }
   return (
     <ThemeProvider theme={theme}>
       <Routes>
         <Route path='' element={<GuestRoute />}>
           <Route path='/' element={<Login />} />
+        </Route>
+        <Route path='' element={<AuthenticationRoute />}>
+          <Route path='/home-page' element={<MainLayout page={<HomePage />} />} />
+        </Route>
+        <Route path='' element={<AdminLayout />}>
+          <Route path='/admin' element={<Dashboard />} />
+          <Route path='/admin-manage-health-records' element={<AdminManageHealthRecords />} />
+          <Route path='/admin-manage-health-insurances' element={<AdminManageHealthInsurances />} />
         </Route>
       </Routes>
       <ToastContainer

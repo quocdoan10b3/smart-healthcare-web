@@ -9,10 +9,12 @@ export interface LoginResponse {
   user: UserType | null
   accessToken: string | null
   refreshToken: string | null
+  role: string | null
 }
 export interface UserType {
   id: number
   fullName: string
   email: string
   userName: string
+  role: string
 }

@@ -8,11 +8,13 @@ interface AuthState {
   user: UserType | null
   accessToken: string | null
   refreshToken: string | null
+  role: string | null
 }
 const initialState: AuthState = {
   user: null,
   accessToken: null,
-  refreshToken: null
+  refreshToken: null,
+  role: null
 }
 
 // create thunk
@@ -25,11 +27,13 @@ const authSlice = createSlice({
       state.user = action.payload.user
       state.accessToken = action.payload.accessToken
       state.refreshToken = action.payload.refreshToken
+      state.role = action.payload.role
     },
     saveLogout: (state) => {
       state.user = null
       state.accessToken = null
       state.refreshToken = null
+      state.role = null
     }
   }
   // extraReducers: (builder) => {},

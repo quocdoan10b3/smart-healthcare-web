@@ -5,11 +5,13 @@ import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { Button, IconButton, TextField } from '@mui/material'
 import { Formik } from 'formik'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { useDispatch } from 'react-redux'
+import { saveUserLogin } from '@/redux-toolkit/auth.slice'
 const Login = () => {
-  // const navigate = useNavigate()
-
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [showPassword, setShowPassword] = useState(false)
   const handleClickShowPassword = () => setShowPassword((show) => !show)
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -25,7 +27,8 @@ const Login = () => {
       console.log(response)
 
       if (response.status === 200) {
-        const { user, accessToken, refreshToken } = response.data
+        const { user, accessToken, refreshToken, role } = response.data
+        dispatch(saveUserLogin({ user, accessToken, refreshToken, role }))
         const resolveAfter2Sec = new Promise((resolve) => setTimeout(resolve, 2000))
         toast
           .promise(resolveAfter2Sec, {
@@ -36,6 +39,9 @@ const Login = () => {
             localStorage.setItem('user', JSON.stringify(user))
             localStorage.setItem('accessToken', JSON.stringify(accessToken))
             localStorage.setItem('refreshToken', JSON.stringify(refreshToken))
+            localStorage.setItem('role', JSON.stringify(role))
+            if (role === 'admin') navigate('/admin')
+            else navigate('/home-page')
           })
       }
     } catch (error) {
