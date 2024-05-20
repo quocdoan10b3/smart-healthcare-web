@@ -1,11 +1,13 @@
 import axios, { AxiosInstance } from 'axios'
 import autoRefreshToken from './autoRefreshToken'
+import { toast } from 'react-toastify'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-let refreshTokenRequest: any = null
-
+// let refreshTokenRequest: any = null
+export const LocalStorageEventTarget = new EventTarget()
 class Http {
   instance: AxiosInstance
+  private refreshTokenRequest: Promise<string> | null = null
   constructor() {
     this.instance = axios.create({
       baseURL: 'http://localhost:8080/',
@@ -26,20 +28,33 @@ class Http {
       (config) => config,
       (error) => {
         console.log('Loi api', error)
-        if (error.response.status === 401 && error.response.data.name === 'EXPIRED_ACCESS_TOKEN') {
-          refreshTokenRequest = refreshTokenRequest
-            ? refreshTokenRequest
+        if (error.response.status !== 401) {
+          //
+        }
+        if (error.response.status === 401) {
+          console.log('AccessToken hết hạn', this.refreshTokenRequest)
+          this.refreshTokenRequest = this.refreshTokenRequest
+            ? this.refreshTokenRequest
             : autoRefreshToken().finally(() => {
-                refreshTokenRequest = null
+                this.refreshTokenRequest = null
               })
-          return refreshTokenRequest
-            .then((accessToken: string) => {
-              error.response.config.Authorization = `Bearer ${JSON.parse(accessToken)}`
-              return this.instance(error.response.config)
-            })
-            .catch((error: never) => {
-              throw error
-            })
+          return (
+            this.refreshTokenRequest
+              .then((accessToken: string) => {
+                error.response.config.Authorization = `Bearer ${JSON.parse(accessToken)}`
+                console.log('accessToken', accessToken)
+                return this.instance(error.response.config)
+              })
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              .catch((errorRefreshToken: any) => {
+                console.log('Refresh token hết hạn hoặc chưa đăng nhập')
+                localStorage.clear()
+                const clearLSEvent = new Event('clearLS')
+                LocalStorageEventTarget.dispatchEvent(clearLSEvent)
+                toast.error('Bạn đã hết phiên đăng nhập !')
+                throw errorRefreshToken
+              })
+          )
         }
         return Promise.reject(error)
       }

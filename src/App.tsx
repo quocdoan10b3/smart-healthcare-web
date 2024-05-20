@@ -15,6 +15,11 @@ import AdminLayout from './layouts/AdminLayout/AdminLayout'
 import Dashboard from './pages/Admin/Dashboard/Dashboard'
 import AdminManageHealthRecords from './pages/Admin/ManageHealthRecords/AdminManageHealthRecords'
 import AdminManageHealthInsurances from './pages/Admin/ManageHealthInsurances/AdminManageHealthInsurances'
+import AdminManageStudents from './pages/Admin/ManageStudents/AdminManageStudents'
+import AdminManageMedicines from './pages/Admin/ManageMedicines/AdminManageMedicines'
+import AdminManageUsageHistory from './pages/Admin/ManageUseMedicine/AdminManageUsageHistory'
+import AdminStatic from './pages/Admin/Statistic/AdminStatic'
+import AdminManageFeedBack from './pages/Admin/ManageFeedBack/AdminManageFeedBack'
 function App() {
   const theme = createTheme({
     typography: {
@@ -50,6 +55,11 @@ function App() {
           <Route path='/admin' element={<Dashboard />} />
           <Route path='/admin-manage-health-records' element={<AdminManageHealthRecords />} />
           <Route path='/admin-manage-health-insurances' element={<AdminManageHealthInsurances />} />
+          <Route path='/admin-manage-students' element={<AdminManageStudents />} />
+          <Route path='/admin-manage-medicines' element={<AdminManageMedicines />} />
+          <Route path='/admin-history-use-medicines' element={<AdminManageUsageHistory />} />
+          <Route path='/admin-statistic' element={<AdminStatic />} />
+          <Route path='/admin-manage-feedback' element={<AdminManageFeedBack />} />
         </Route>
       </Routes>
       <ToastContainer

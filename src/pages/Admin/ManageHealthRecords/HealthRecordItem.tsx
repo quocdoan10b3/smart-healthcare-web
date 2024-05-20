@@ -20,8 +20,9 @@ const HealthRecordItem: React.FC<PropsType> = ({ healthRecord, onShowDetails }) 
       <td className='px-6 py-4'>{healthRecord.dentalHealth}</td>
       <td className='px-6 py-4'>{healthRecord.allergies}</td> */}
       <td className='px-6 py-4'>{healthRecord.notes}</td>
-      <td className='px-6 py-4'><Button variant='text' color='primary' onClick={() => onShowDetails(healthRecord)}>
-        Xem thêm
+      <td className='px-6 py-4'>
+        <Button variant='text' color='primary' onClick={() => onShowDetails(healthRecord)}>
+          Xem thêm
         </Button>
       </td>
       {/* <td className='px-6 py-4'>{healthRecord.height}</td> */}

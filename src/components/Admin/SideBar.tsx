@@ -110,7 +110,7 @@ const AdminSidebar = () => {
             /> */}
             <Item
               title='Tài khoản'
-              to='/admin-manage-accounts'
+              to='/admin-manage-students'
               icon={<AccountBoxIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -137,8 +137,8 @@ const AdminSidebar = () => {
               setSelected={setSelected}
             />
             <Item
-              title='Lịch sử nhập thuốc'
-              to='admin-history-input-medicines'
+              title='Lịch sử dùng thuốc'
+              to='admin-history-use-medicines'
               icon={<ManageHistoryOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -152,7 +152,7 @@ const AdminSidebar = () => {
             />
             <Item
               title='Các đánh giá'
-              to='admin-feedback'
+              to='admin-manage-feedback'
               icon={<FeedbackOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
