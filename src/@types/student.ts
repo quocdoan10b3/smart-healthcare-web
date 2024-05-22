@@ -19,3 +19,9 @@ export interface AddStudentType {
   dateOfBirth: string
   address: string
 }
+export interface UpdateStudentType {
+  class: string
+  address: string
+  dateOfBirth: string
+  gender: boolean
+}

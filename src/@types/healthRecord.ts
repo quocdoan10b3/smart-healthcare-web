@@ -11,3 +11,13 @@ export interface HealthRecordType {
   allergies: string
   notes: string
 }
+export interface AddHealthRecordType {
+  examDate: string
+  height: number
+  weight: number
+  vision: number
+  hearing: string
+  dentalHealth: string
+  allergies: string
+  notes: string
+}

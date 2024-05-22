@@ -29,7 +29,7 @@ const Login = () => {
       if (response.status === 200) {
         const { user, accessToken, refreshToken, role } = response.data
         dispatch(saveUserLogin({ user, accessToken, refreshToken, role }))
-        const resolveAfter2Sec = new Promise((resolve) => setTimeout(resolve, 2000))
+        const resolveAfter2Sec = new Promise((resolve) => setTimeout(resolve, 100))
         toast
           .promise(resolveAfter2Sec, {
             pending: 'Đang tiến hành đăng nhập ⌛',
@@ -41,7 +41,8 @@ const Login = () => {
             localStorage.setItem('refreshToken', JSON.stringify(refreshToken))
             localStorage.setItem('role', JSON.stringify(role))
             if (role === 'admin') navigate('/admin')
-            else navigate('/home-page')
+            if (role === 'student') navigate('/student')
+            if (role === 'staff') navigate('/staff')
           })
       }
     } catch (error) {
@@ -63,15 +64,17 @@ const Login = () => {
         backgroundPosition: 'center'
       }}
     >
-      <div className='bg-gradient-to-r from-green-300 to-orange-300 w-4/12 h-2/3 m-auto rounded-xl'>
+      <div className='bg-gradient-to-r from-green-300 to-orange-300 w-1/3 h-2/3 m-auto rounded-xl'>
         <div className='text-center'>
           <div className='flex justify-center mt-10'>
-            <img src='././src/assets/images/logo.jpg' alt='logo' style={{ width: '25%', height: '25%' }} />
+            <img src='././src/assets/images/logo.jpg' alt='logo' style={{ width: '30%', height: '30%' }} />
           </div>
-          <h2 className='mt-5 text-blue-800 font-bold text-2xl'>HỆ THỐNG QUẢN LÝ Y TẾ HỌC ĐƯỜNG</h2>
+          <h2 className='mt-5 text-blue-800 font-bold' style={{ fontSize: '21px', lineHeight: '30px' }}>
+            HỆ THỐNG QUẢN LÝ Y TẾ HỌC ĐƯỜNG
+          </h2>
         </div>
         <div className='mx-auto w-full max-w-[400px]'>
-          <div className='mx-auto max-w-[400px] text-left mb-4 mt-7'>
+          <div className='mx-auto max-w-[400px] text-center mb-4 mt-7'>
             <Formik initialValues={initialValues} onSubmit={handleFormSubmit} validationSchema={LoginSchema}>
               {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
                 <form onSubmit={handleSubmit} name='form-login' method='post'>
@@ -79,7 +82,7 @@ const Login = () => {
                     <TextField
                       sx={{
                         fontFamily: 'Lexend',
-                        width: `100%`,
+                        width: `95%`,
                         marginBottom: '20px'
                       }}
                       id='username'
@@ -92,11 +95,11 @@ const Login = () => {
                       helperText={touched.username && errors.username}
                     />
                   </div>
-                  <div className='relative mb-0'>
+                  <div className='relative'>
                     <TextField
                       sx={{
                         fontFamily: 'Lexend',
-                        width: `100%`,
+                        width: `95%`,
                         marginBottom: '20px'
                       }}
                       id='password'
@@ -113,7 +116,8 @@ const Login = () => {
                       sx={{
                         position: 'absolute',
                         right: '0',
-                        top: '10px'
+                        top: '10px',
+                        marginRight: 1
                       }}
                       aria-label='toggle password visibility'
                       onClick={handleClickShowPassword}
@@ -128,7 +132,7 @@ const Login = () => {
                   <div className='flex justify-center'>
                     <Button
                       sx={{
-                        width: '100%',
+                        width: '95%',
                         height: '50px',
                         backgroundColor: '#003300'
                       }}

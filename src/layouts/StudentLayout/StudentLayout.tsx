@@ -4,19 +4,18 @@ import { useSelector } from 'react-redux'
 import { Outlet, useNavigate } from 'react-router-dom'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ImageNotPermission from '@/assets/images/not-permission.png'
-import AdminSidebar from '@/components/Admin/SideBar'
 import LoginIcon from '@mui/icons-material/Login'
-const AdminLayout = () => {
+import StudentSidebar from '@/components/Student/SideBar'
+const StudentLayout = () => {
   const role = useSelector((state: RootState) => state.auth.role)
   console.log(role)
   const navigate = useNavigate()
   return (
     <div>
-      {role?.toUpperCase() === 'ADMIN' ? (
+      {role?.toUpperCase() === 'STUDENT' ? (
         <div className='flex relative h-full bg-[#f4efff]'>
-          <AdminSidebar />
+          <StudentSidebar />
           <main className='h-full w-full bg-[#f4efff] mt-5'>
-            {/* <Topbar /> */}
             <Outlet />
           </main>
         </div>
@@ -30,7 +29,7 @@ const AdminLayout = () => {
                     Bạn không có quyền truy cập liên kết này 👘
                   </h1>
                   <Alert sx={{ mb: 4 }} severity='error'>
-                    Bạn vừa truy cập vào liên kết dành cho admin !
+                    Bạn vừa truy cập vào liên kết dành cho student !
                   </Alert>
                   <Alert sx={{ mb: 4 }} severity='success'>
                     Quay lại và trải nghiệm ứng dụng !
@@ -68,4 +67,4 @@ const AdminLayout = () => {
   )
 }
 
-export default AdminLayout
+export default StudentLayout
