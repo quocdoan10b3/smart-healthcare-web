@@ -63,7 +63,7 @@ const AdminManageHealthInsurances = () => {
           variant='outlined'
           value={search}
           onChange={handleSearchChange}
-          sx={{ width: 300, background: 'white', ml: 'auto', my:2 }}
+          sx={{ width: 300, background: 'white', ml: 'auto', my: 2 }}
         />
       </div>
       <div className='relative overflow-x-auto shadow-md sm:rounded-lg'>

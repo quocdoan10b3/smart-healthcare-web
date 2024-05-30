@@ -1,19 +1,24 @@
-import { Box, IconButton, TextField } from '@mui/material'
+import { Box, IconButton } from '@mui/material'
 import HomeIcon from '@mui/icons-material/Home'
-import SearchIcon from '@mui/icons-material/Search'
 import { Link } from 'react-router-dom'
 
-const AdminTopbar = () => {
+const Topbar = () => {
   return (
-    <Box display='flex' justifyContent='space-between' p={2}>
-      {/* Search bar */}
-      <Box display='flex' borderRadius='3px' sx={{ position: 'relative' }}>
-        <TextField label='Search' variant='outlined' size='small' />
-        <IconButton type='button' sx={{ p: 1, position: 'absolute', right: 4, top: 0 }}>
-          <SearchIcon />
-        </IconButton>
+    <Box
+      sx={{
+        backgroundColor: '#a1aff4',
+        padding: '1px',
+        boxShadow: '0 2px 4px rgba(222, 120, 25, 0.1)',
+        marginBottom: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+      }}
+    >
+      <Box sx={{ flexGrow: 1, textAlign: 'center' }}>
+        <p className='text-xl font-bold m-0 text-rose-800'>HỆ THỐNG QUẢN LÝ Y TẾ HỌC ĐƯỜNG</p>
       </Box>
-      <Box display='flex'>
+      <Box sx={{ flexShrink: 0 }}>
         <Link to='/'>
           <IconButton>
             <HomeIcon />
@@ -24,4 +29,4 @@ const AdminTopbar = () => {
   )
 }
 
-export default AdminTopbar
+export default Topbar

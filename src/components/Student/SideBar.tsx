@@ -38,7 +38,7 @@ const StudentSidebar = () => {
   const role = useSelector((state: RootState) => state.auth.role)
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [selected, setSelected] = useState('Dashboard')
-
+  // const avatarUrl = 'https://anhdephd.vn/wp-content/uploads/2022/05/mau-anh-the.jpg'
   return (
     <Box
       sx={{
@@ -157,7 +157,7 @@ const StudentSidebar = () => {
                   alt='profile-user'
                   width={40}
                   height={40}
-                  //   src={user?.avatarUrl || ImageAdminDefault}
+                  // src={avatarUrl || ImageAdminDefault}
                   src={ImageAdminDefault}
                   style={{ cursor: 'pointer', borderRadius: '50%' }}
                 />

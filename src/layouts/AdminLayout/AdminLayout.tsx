@@ -6,6 +6,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ImageNotPermission from '@/assets/images/not-permission.png'
 import AdminSidebar from '@/components/Admin/SideBar'
 import LoginIcon from '@mui/icons-material/Login'
+import Topbar from '@/components/Admin/TopBar'
 const AdminLayout = () => {
   const role = useSelector((state: RootState) => state.auth.role)
   console.log(role)
@@ -15,8 +16,8 @@ const AdminLayout = () => {
       {role?.toUpperCase() === 'ADMIN' ? (
         <div className='flex relative h-full bg-[#f4efff]'>
           <AdminSidebar />
-          <main className='h-full w-full bg-[#f4efff] mt-5'>
-            {/* <Topbar /> */}
+          <main className='h-full w-full bg-[#f4efff]'>
+            <Topbar />
             <Outlet />
           </main>
         </div>

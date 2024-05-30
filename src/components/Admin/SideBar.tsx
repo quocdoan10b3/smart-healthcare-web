@@ -151,7 +151,7 @@ const AdminSidebar = () => {
               setSelected={setSelected}
             />
             <Item
-              title='Các đánh giá'
+              title='Đánh giá và hỏi đáp'
               to='admin-manage-feedback'
               icon={<FeedbackOutlinedIcon />}
               selected={selected}
