@@ -5,4 +5,5 @@ export interface HealthInsuranceType {
   studentId: number
   expDate: string
   status: boolean
+  scholastic: string
 }

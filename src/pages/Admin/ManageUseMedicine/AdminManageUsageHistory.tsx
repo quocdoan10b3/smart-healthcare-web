@@ -75,7 +75,7 @@ const AdminManageUsageHistory = () => {
                 Lý do
               </th>
               <th scope='col' className='px-6 py-3'>
-                Lựa chọn
+                Đơn thuốc
               </th>
             </tr>
           </thead>

@@ -41,7 +41,7 @@ const FeedbackItem = ({ feedback }: PropsType) => {
   }
 
   return (
-    <div className='border p-4 rounded shadow'>
+    <div className='border p-4 rounded shadow mt-10 bg-orange-100'>
       <Box display='flex' alignItems='center'>
         <img
           alt='profile-user'
@@ -62,7 +62,6 @@ const FeedbackItem = ({ feedback }: PropsType) => {
           </p>
         </div>
         <div className='mt-2 ml-10'>
-          {/* Hiển thị nút "Trả lời" nếu không có phản hồi */}
           {!feedback.response && (
             <Box display='flex' alignItems='center'>
               <button onClick={handleReplyClick} className='text-blue-500 mb-1'>
@@ -93,7 +92,6 @@ const FeedbackItem = ({ feedback }: PropsType) => {
               />
             </div>
           )}
-          {/* Hiển thị phản hồi nếu tồn tại */}
           {feedback.response && (
             <p>
               <RedoOutlinedIcon /> {feedback.response}

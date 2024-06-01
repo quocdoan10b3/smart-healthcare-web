@@ -1,15 +1,31 @@
 import { HealthRecordType } from '@/@types/healthRecord'
 import HeaderAdmin from '@/components/Admin/HeaderAdmin'
 import { getAllHealthRecordsApi } from '@/services/HealthRecordService/healthRecordService'
-import { Button, Dialog, DialogActions, DialogContent, Pagination, TextField } from '@mui/material'
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Pagination,
+  Select,
+  SelectChangeEvent,
+  TextField
+} from '@mui/material'
 import { ChangeEvent, useEffect, useState } from 'react'
 import HealthRecordItem from './HealthRecordItem'
 import { formatDateTime } from '@/helpers/formatDateTime'
 
 const AdminManageHealthRecords = () => {
+  const [scholastic, setScholastic] = useState<string>('None')
   const [search, setSearch] = useState<string>('')
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value as string)
+  }
+  const handleChangeScholastic = (event: SelectChangeEvent) => {
+    setScholastic(event.target.value as string)
   }
   const [listHealthRecords, setListHealthRecords] = useState<HealthRecordType[]>([])
   const [currentPage, setCurrentPage] = useState<number>(1)
@@ -46,6 +62,22 @@ const AdminManageHealthRecords = () => {
     <div className='p-4 '>
       <HeaderAdmin title='Quản lý hồ sơ khám sức khỏe học sinh' />
       <div className='flex justify-between'>
+        <FormControl size='small' sx={{ width: 200, my: 2, background: 'white' }}>
+          <InputLabel id='demo-simple-select-label'>Năm học</InputLabel>
+          <Select
+            labelId='demo-simple-select-label'
+            id='demo-simple-select'
+            value={scholastic}
+            label='Năm học'
+            onChange={handleChangeScholastic}
+          >
+            <MenuItem value='None'>Tất cả</MenuItem>
+            <MenuItem value='N2023_2024'>2023-2024</MenuItem>
+            <MenuItem value='N2022_2023'>2022-2023</MenuItem>
+            <MenuItem value='N2021_2022'>2021-2022</MenuItem>
+            <MenuItem value='N2020_2021'>2020-2021</MenuItem>
+          </Select>
+        </FormControl>
         <TextField
           size='small'
           label='Tìm kiếm'

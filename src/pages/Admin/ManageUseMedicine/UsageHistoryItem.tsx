@@ -14,10 +14,10 @@ const HealthRecordItem: React.FC<PropsType> = ({ usageHistory, onShowDetails }) 
       <td className='px-6 py-4'>{usageHistory.studentName}</td>
       <td className='px-6 py-4'>{usageHistory.classStudent}</td>
       <td className='px-6 py-4'>{formatDateTime(usageHistory.usageDate)}</td>
-      <td className='px-6 py-4'>{usageHistory.reason} cm</td>
+      <td className='px-6 py-4'>{usageHistory.reason}</td>
       <td className='px-6 py-4'>
-        <Button variant='text' color='primary' onClick={() => onShowDetails(usageHistory)}>
-          Đơn thuốc
+        <Button color='primary' size='small' onClick={() => onShowDetails(usageHistory)}>
+          Xem chi tiết
         </Button>
       </td>
     </tr>

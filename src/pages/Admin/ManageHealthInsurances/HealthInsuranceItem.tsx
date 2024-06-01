@@ -1,5 +1,5 @@
 import { HealthInsuranceType } from '@/@types/healthInsurance'
-import { formatDateTime } from '@/helpers/formatDateTime'
+// import { formatDateTime } from '@/helpers/formatDateTime'
 interface PropsType {
   healthInsurance: HealthInsuranceType
   //   getListHealthInsurances: (currentPage: number, status: string, search: string) => Promise<void>
@@ -14,7 +14,8 @@ const HealthInsuranceItem = ({ healthInsurance }: PropsType) => {
       </th>
       <td className='px-6 py-4'>{healthInsurance.studentName}</td>
       <td className='px-6 py-4'>{healthInsurance.insuranceNumber}</td>
-      <td className='px-6 py-4'>{formatDateTime(healthInsurance.expDate)}</td>
+      {/* <td className='px-6 py-4'>{formatDateTime(healthInsurance.expDate)}</td> */}
+      <td className='px-6 py-4'>{healthInsurance.scholastic}</td>
       <td className='px-6 py-4'>{healthInsurance.status ? 'Đã hoàn thành' : 'Chưa đóng'}</td>
     </tr>
   )

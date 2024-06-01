@@ -67,7 +67,7 @@ const AdminManageFeedBack = () => {
           <FeedbackItem feedback={fb} refreshFeedbacks={refreshFeedbacks}/>
         ))}
       </div>
-      <div className='py-4 px-4 flex justify-end'>
+      <div className='py-4 px-4 flex justify-end mt-5'>
         <Pagination color='primary' count={totalPages} page={currentPage} onChange={handleChangePage} />
       </div>
     </div>
