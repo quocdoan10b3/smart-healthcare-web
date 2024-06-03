@@ -6,6 +6,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ImageNotPermission from '@/assets/images/not-permission.png'
 import LoginIcon from '@mui/icons-material/Login'
 import StudentSidebar from '@/components/Student/SideBar'
+import Topbar from '@/components/Admin/TopBar'
 const StudentLayout = () => {
   const role = useSelector((state: RootState) => state.auth.role)
   console.log(role)
@@ -15,7 +16,8 @@ const StudentLayout = () => {
       {role?.toUpperCase() === 'STUDENT' ? (
         <div className='flex relative h-full bg-[#f4efff]'>
           <StudentSidebar />
-          <main className='h-full w-full bg-[#f4efff] mt-5'>
+          <main className='h-full w-full bg-[#f4efff]'>
+            <Topbar />
             <Outlet />
           </main>
         </div>

@@ -1,3 +1,4 @@
+import { AddHealthInsuranceType } from '@/@types/healthInsurance'
 import http from '@/utils/http'
 const controller = new AbortController()
 export const getAllHealthInsurancesApi = (page: number, status: string, scholastic: string, search: string) => {
@@ -23,4 +24,12 @@ export const getAllHealthInsurancesApi = (page: number, status: string, scholast
       }
     )
   }
+}
+export const checkHealthInsurance = (studentId: number, currentYear: number) => {
+  return http.get(`api/health-insurance/${studentId}/is_health_insurance/${currentYear}`, {
+    signal: controller.signal
+  })
+}
+export const addHealthInsuranceApi = (studentId: number, body: AddHealthInsuranceType) => {
+  return http.post(`api/health-insurance/${studentId}`, body, { signal: controller.signal })
 }

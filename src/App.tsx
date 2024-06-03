@@ -28,6 +28,8 @@ import StudentFeedBack from './pages/Student/StudentFeedBack'
 import StudentHealthInsurance from './pages/Student/StudentHealthInsurance'
 import StudentMedicinesUsageHistory from './pages/Student/StudentMedicinesUsageHistory'
 import AddHealthRecord from './components/Admin/AddHealthRecord'
+import AddHealthInsurance from './components/Admin/AddHealthInsurance'
+import AddMedicineForm from './components/Admin/AddMedicineForm'
 function App() {
   const theme = createTheme({
     typography: {
@@ -69,6 +71,8 @@ function App() {
           <Route path='/admin-statistic' element={<AdminStatic />} />
           <Route path='/admin-manage-feedback' element={<AdminManageFeedBack />} />
           <Route path='/add-health-record' element={<AddHealthRecord />} />
+          <Route path='/add-health-insurance' element={<AddHealthInsurance />} />
+          <Route path='/add-medicine' element={<AddMedicineForm />} />
         </Route>
         <Route path='' element={<StudentLayout />}>
           <Route path='/student' element={<Dashboard />} />

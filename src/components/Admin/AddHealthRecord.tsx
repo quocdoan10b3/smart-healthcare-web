@@ -29,7 +29,8 @@ const AddHealthRecord = () => {
       hearing: hearing,
       dentalHealth: dentalHealth,
       allergies: allergy,
-      notes: note
+      notes: note,
+      scholastic: new Date().getFullYear().toString()
     }
     console.log('idStudent:', idStudent)
     try {

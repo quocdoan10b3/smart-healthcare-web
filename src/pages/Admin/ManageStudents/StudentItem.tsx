@@ -1,5 +1,6 @@
 import { StudentType } from '@/@types/student'
 import { formatDateTime } from '@/helpers/formatDateTime'
+import { checkHealthInsurance } from '@/services/HealthInsuranceService/healthInsuranceService'
 import { checkStudentIsExamined } from '@/services/HealthRecordService/healthRecordService'
 import { Button, Menu, MenuItem } from '@mui/material'
 import { useEffect, useState } from 'react'
@@ -10,12 +11,13 @@ interface PropsType {
 const StudentItem = ({ student }: PropsType) => {
   const navigate = useNavigate()
   const [hasHealthCheck, setHasHealthCheck] = useState(false)
+  const [hasInsuranceCheck, setHasInsuranceCheck] = useState(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
   useEffect(() => {
     const healthCheckStatus = async () => {
       try {
-        const response = await checkStudentIsExamined(student.id)
+        const response = await checkStudentIsExamined(student.id, new Date().getFullYear())
         setHasHealthCheck(response.data)
         console.log('hr:', response)
       } catch (error) {
@@ -24,6 +26,19 @@ const StudentItem = ({ student }: PropsType) => {
     }
 
     healthCheckStatus()
+  }, [student.id])
+  useEffect(() => {
+    const insuranceCheckStatus = async () => {
+      try {
+        const response = await checkHealthInsurance(student.id, new Date().getFullYear())
+        setHasInsuranceCheck(response.data)
+        console.log('hr:', response)
+      } catch (error) {
+        console.error('Error fetching health record status:', error)
+      }
+    }
+
+    insuranceCheckStatus()
   }, [student.id])
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget)
@@ -37,11 +52,11 @@ const StudentItem = ({ student }: PropsType) => {
   }
 
   const handleAddBHYT = () => {
-    navigate('/add-health-insurance')
+    navigate('/add-health-insurance', { state: { student } })
   }
 
   const handleUseMedicine = () => {
-    navigate('/admin-use-medicine')
+    navigate('/admin-use-medicine', { state: { student } })
   }
   return (
     <tr className='odd:bg-white even:bg-gray-50 border-b '>
@@ -74,7 +89,7 @@ const StudentItem = ({ student }: PropsType) => {
           }}
         >
           {!hasHealthCheck && <MenuItem onClick={handleAddHealthRecord}>Thêm hồ sơ khám sức khỏe</MenuItem>}
-          <MenuItem onClick={handleAddBHYT}>Thêm BHYT</MenuItem>
+          {!hasInsuranceCheck && <MenuItem onClick={handleAddBHYT}>Thêm BHYT</MenuItem>}
           <MenuItem onClick={handleUseMedicine}>Sử dụng thuốc</MenuItem>
         </Menu>
       </td>

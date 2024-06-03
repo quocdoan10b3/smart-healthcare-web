@@ -20,4 +20,5 @@ export interface AddHealthRecordType {
   dentalHealth: string
   allergies: string
   notes: string
+  scholastic: string
 }

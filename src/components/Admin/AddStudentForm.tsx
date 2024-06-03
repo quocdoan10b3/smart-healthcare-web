@@ -6,7 +6,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
+  // DialogTitle,
   IconButton,
   MenuItem,
   Select,
@@ -63,7 +63,8 @@ const AddStudentForm = ({ open, handleClose, refreshStudents }) => {
   }
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>THÊM HỌC SINH MỚI</DialogTitle>
+      {/* <DialogTitle>THÊM HỌC SINH MỚI</DialogTitle> */}
+      <h3 className='text-cyan-800 font-medium uppercase text-center text-2xl mt-5 mb-2'>THÊM HỌC SINH MỚI</h3>
       <DialogContent>
         <div className='py-1 flex justify-between items-center gap-7'>
           <dt className='text-base font-medium text-gray-800 '>Mã học sinh</dt>
@@ -171,6 +172,7 @@ const AddStudentForm = ({ open, handleClose, refreshStudents }) => {
         <div className='py-1 flex justify-between items-center gap-7'>
           <dt className='text-base font-medium text-gray-800 '>Địa chỉ</dt>
           <TextField
+            multiline
             label='Địa chỉ'
             name='address'
             fullWidth

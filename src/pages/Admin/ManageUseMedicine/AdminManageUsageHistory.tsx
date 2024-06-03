@@ -60,7 +60,7 @@ const AdminManageUsageHistory = () => {
           <thead className='text-xs text-gray-700 uppercase bg-gray-50 '>
             <tr>
               <th scope='col' className='px-6 py-3'>
-                ID
+                STT
               </th>
               <th scope='col' className='px-6 py-3'>
                 Tên học sinh
@@ -80,8 +80,8 @@ const AdminManageUsageHistory = () => {
             </tr>
           </thead>
           <tbody>
-            {listUsageHistories.map((h) => (
-              <UsageHistoryItem usageHistory={h} onShowDetails={handleOpenDialog} />
+            {listUsageHistories.map((h, index) => (
+              <UsageHistoryItem key={index} indexNumber={index + 1} usageHistory={h} onShowDetails={handleOpenDialog} />
             ))}
           </tbody>
         </table>

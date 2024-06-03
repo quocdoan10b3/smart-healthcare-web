@@ -1,13 +1,16 @@
 import { AddHealthRecordType } from '@/@types/healthRecord'
 import http from '@/utils/http'
 const controller = new AbortController()
-export const getAllHealthRecordsApi = (page: number, search: string) => {
-  return http.get(`api/health-record?Search=${search}&SortBy=Id&PageNumber=${page}&PageSize=6&IsDescending=true`, {
-    signal: controller.signal
-  })
+export const getAllHealthRecordsApi = (page: number, scholastic: string, search: string) => {
+  return http.get(
+    `api/health-record?Search=${search}&SortBy=Id&PageNumber=${page}&PageSize=6&IsDescending=true&Filter=${scholastic}`,
+    {
+      signal: controller.signal
+    }
+  )
 }
-export const checkStudentIsExamined = (studentId: number) => {
-  return http.get(`api/health-record/${studentId}/is-examined`, {
+export const checkStudentIsExamined = (studentId: number, currentYear: number) => {
+  return http.get(`api/health-record/${studentId}/is-examined/${currentYear}`, {
     signal: controller.signal
   })
 }

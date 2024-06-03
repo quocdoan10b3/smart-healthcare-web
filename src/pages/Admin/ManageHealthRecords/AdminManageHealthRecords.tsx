@@ -33,11 +33,11 @@ const AdminManageHealthRecords = () => {
   const [selectedRecord, setSelectedRecord] = useState<HealthRecordType | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
   useEffect(() => {
-    getListHealthRecords(currentPage, search)
-  }, [currentPage, search])
-  const getListHealthRecords = async (currentPage: number, search: string) => {
+    getListHealthRecords(currentPage, scholastic, search)
+  }, [currentPage, scholastic, search])
+  const getListHealthRecords = async (currentPage: number, scholastic: string, search: string) => {
     try {
-      const response = await getAllHealthRecordsApi(currentPage, search)
+      const response = await getAllHealthRecordsApi(currentPage, scholastic, search)
       if (response && response.status === 200) {
         setTotalPages(response.data.totalPages)
         setListHealthRecords(response.data.items)
@@ -72,6 +72,7 @@ const AdminManageHealthRecords = () => {
             onChange={handleChangeScholastic}
           >
             <MenuItem value='None'>Tất cả</MenuItem>
+            <MenuItem value='N2024_2025'>2024-2025</MenuItem>
             <MenuItem value='N2023_2024'>2023-2024</MenuItem>
             <MenuItem value='N2022_2023'>2022-2023</MenuItem>
             <MenuItem value='N2021_2022'>2021-2022</MenuItem>

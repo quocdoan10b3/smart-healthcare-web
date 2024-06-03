@@ -4,12 +4,13 @@ import { Button } from '@mui/material'
 interface PropsType {
   usageHistory: UsageHistoryType
   onShowDetails: (history: UsageHistoryType) => void
+  indexNumber: number
 }
-const HealthRecordItem: React.FC<PropsType> = ({ usageHistory, onShowDetails }) => {
+const HealthRecordItem: React.FC<PropsType> = ({ usageHistory, onShowDetails, indexNumber }) => {
   return (
     <tr className='odd:bg-white even:bg-gray-50 border-b '>
       <th scope='row' className='px-6 py-4 font-medium text-cyan-800 '>
-        {usageHistory.id}
+        {indexNumber}
       </th>
       <td className='px-6 py-4'>{usageHistory.studentName}</td>
       <td className='px-6 py-4'>{usageHistory.classStudent}</td>

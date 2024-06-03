@@ -7,3 +7,8 @@ export interface HealthInsuranceType {
   status: boolean
   scholastic: string
 }
+export interface AddHealthInsuranceType {
+  insuranceNumber: string
+  status: boolean
+  scholastic: string
+}

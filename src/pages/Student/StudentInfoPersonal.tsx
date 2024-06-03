@@ -72,8 +72,8 @@ const StudentInfoPersonal = () => {
   }
   const date = formatDateTime(dateOfBirth)
   return (
-    <div>
-      <div className=' max-w-2xl sm:max-w-s md:max-w-sm lg:max-w-lg xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto bg-green-100 overflow-hidden shadow rounded-lg border'>
+    <div className='p-4'>
+      <div className=' max-w-2xl sm:max-w-s md:max-w-sm lg:max-w-lg xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto bg-green-100 overflow-hidden shadow rounded-lg border mt-5'>
         <div className='border-t border-gray-200 px-4 py-5 sm:p-0'>
           <p className='text-cyan-600 text-2xl text-center mt-5 mb-5'>Thông tin cá nhân</p>
           <dl className='sm:divide-y sm:divide-gray-200'>
