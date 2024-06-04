@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { ProSidebar, Menu, MenuItem } from 'react-pro-sidebar'
 import 'react-pro-sidebar/dist/css/styles.css'
@@ -9,13 +9,13 @@ import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
 import AccountBoxIcon from '@mui/icons-material/AccountBox'
-import ImageAdminDefault from '@/assets/images/admin-default.png'
 import ButtonLogout from '../Authenticate/ButtonLogout'
 import ImageLogo from '@/assets/images/logo_web.jpg'
 import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined'
 import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformationOutlined'
 import ManageHistoryOutlinedIcon from '@mui/icons-material/ManageHistoryOutlined'
 import ViewListOutlinedIcon from '@mui/icons-material/ViewListOutlined'
+import { getUserByIdApi } from '@/services/AuthService/authService'
 interface PropsType {
   title: string
   to: string
@@ -39,6 +39,20 @@ const StudentSidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [selected, setSelected] = useState('Dashboard')
   // const avatarUrl = 'https://anhdephd.vn/wp-content/uploads/2022/05/mau-anh-the.jpg'
+  const [avatarUrl, setAvatarUrl] = useState('')
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (user) {
+        const userData = await getUserByIdApi(user.id)
+        console.log('userData:', userData)
+
+        setAvatarUrl(userData.data.avatarUrl)
+      }
+    }
+
+    fetchUserData()
+  }, [user, user?.id])
+
   return (
     <Box
       sx={{
@@ -157,8 +171,8 @@ const StudentSidebar = () => {
                   alt='profile-user'
                   width={40}
                   height={40}
-                  // src={avatarUrl || ImageAdminDefault}
-                  src={ImageAdminDefault}
+                  src={avatarUrl}
+                  // src={ImageAdminDefault}
                   style={{ cursor: 'pointer', borderRadius: '50%' }}
                 />
                 <p className='pt-2 font-bold text-gray-100 ml-5'>{user?.fullName}</p>

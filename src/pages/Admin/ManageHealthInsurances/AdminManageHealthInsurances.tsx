@@ -42,6 +42,9 @@ const AdminManageHealthInsurances = () => {
   const handleChangePage = (_event: ChangeEvent<unknown>, value: number) => {
     setCurrentPage(value)
   }
+  const refreshInsurances = () => {
+    getListHealthInsurances(currentPage, status, scholastic, search)
+  }
   console.log(listHealthInsurances)
   return (
     <div className='p-4 '>
@@ -57,6 +60,7 @@ const AdminManageHealthInsurances = () => {
             onChange={handleChangeScholastic}
           >
             <MenuItem value='None'>Tất cả</MenuItem>
+            <MenuItem value='N2024_2025'>2024-2025</MenuItem>
             <MenuItem value='N2023_2024'>2023-2024</MenuItem>
             <MenuItem value='N2022_2023'>2022-2023</MenuItem>
             <MenuItem value='N2021_2022'>2021-2022</MenuItem>
@@ -109,7 +113,7 @@ const AdminManageHealthInsurances = () => {
           </thead>
           <tbody>
             {listHealthInsurances.map((hi) => (
-              <HealthInsuranceItem healthInsurance={hi} />
+              <HealthInsuranceItem healthInsurance={hi} refreshInsurances={refreshInsurances} />
             ))}
           </tbody>
         </table>

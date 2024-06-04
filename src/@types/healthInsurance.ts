@@ -12,3 +12,6 @@ export interface AddHealthInsuranceType {
   status: boolean
   scholastic: string
 }
+export interface UpdateStatusInsuranceType {
+  status: boolean
+}

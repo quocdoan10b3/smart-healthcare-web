@@ -11,3 +11,9 @@ export const postLogout = (refreshToken: string) => {
 export const postRefreshToken = (body: { refreshToken: string }) => {
   return http.post('api/auth/refresh', body, { signal: controller.signal })
 }
+export const getUserByIdApi = (userId: number) => {
+  return http.get(`api/user/${userId}`, { signal: controller.signal })
+}
+export const updateAvatarUserApi = (userId: number, body: { avatarUrl: string }) => {
+  return http.put(`api/user/${userId}`, body, { signal: controller.signal })
+}

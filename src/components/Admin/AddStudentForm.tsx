@@ -19,14 +19,18 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
 import { Dayjs } from 'dayjs'
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
-
-const AddStudentForm = ({ open, handleClose, refreshStudents }) => {
+interface PropsType {
+  open: boolean
+  handleClose: () => void
+  refreshStudents: () => void
+}
+const AddStudentForm = ({ open, handleClose, refreshStudents }: PropsType) => {
   const [showPassword, setShowPassword] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [fullName, setFullName] = useState('')
   const [userName, setUserName] = useState('')
-  const [avatarUrl, setAvatarUrl] = useState('')
+  const [avatarUrl] = useState('https://minio.whitemage.fun/healthcare/avatar_default.jpg')
   const [classes, setClasses] = useState('')
   const [dateOfBirth, setDateOfBirth] = useState<Dayjs | null>(null)
   const [gender, setGender] = useState('nam')

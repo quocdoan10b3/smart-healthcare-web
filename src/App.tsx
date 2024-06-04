@@ -30,6 +30,7 @@ import StudentMedicinesUsageHistory from './pages/Student/StudentMedicinesUsageH
 import AddHealthRecord from './components/Admin/AddHealthRecord'
 import AddHealthInsurance from './components/Admin/AddHealthInsurance'
 import AddMedicineForm from './components/Admin/AddMedicineForm'
+import AddUseMedicine from './components/Admin/AddUseMedicine/AddUseMedicine'
 function App() {
   const theme = createTheme({
     typography: {
@@ -73,6 +74,7 @@ function App() {
           <Route path='/add-health-record' element={<AddHealthRecord />} />
           <Route path='/add-health-insurance' element={<AddHealthInsurance />} />
           <Route path='/add-medicine' element={<AddMedicineForm />} />
+          <Route path='/admin-use-medicine' element={<AddUseMedicine />} />
         </Route>
         <Route path='' element={<StudentLayout />}>
           <Route path='/student' element={<Dashboard />} />
