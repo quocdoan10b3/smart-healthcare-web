@@ -8,11 +8,14 @@ import { useState } from 'react'
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined'
 import { addResponseApi } from '@/services/FeedbackService/feedbackService'
 import { toast } from 'react-toastify'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store'
 interface PropsType {
   feedback: FeedbackType
   refreshFeedbacks: () => void
 }
 const FeedbackItem = ({ feedback }: PropsType) => {
+  const role = useSelector((state: RootState) => state.auth.role)
   const [response, setResponse] = useState('')
   const [isReplying, setIsReplying] = useState(false)
 
@@ -62,7 +65,7 @@ const FeedbackItem = ({ feedback }: PropsType) => {
           </p>
         </div>
         <div className='mt-2 ml-10'>
-          {!feedback.response && (
+          {!feedback.response && role?.toUpperCase() === 'ADMIN' && (
             <Box display='flex' alignItems='center'>
               <button onClick={handleReplyClick} className='text-blue-500 mb-1'>
                 Trả lời

@@ -19,3 +19,7 @@ export interface UserType {
   role: string
   avatarUrl: null | string
 }
+export interface InfoAccountPut {
+  email: string
+  avatarUrl: string
+}

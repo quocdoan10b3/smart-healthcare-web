@@ -5,6 +5,7 @@ export interface UsageHistoryType {
   reason: string
   studentName: string
   classStudent: string
+  studentCode: string
   prescriptionResponses: [
     {
       historyId: number

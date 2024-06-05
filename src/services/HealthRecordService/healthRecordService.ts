@@ -17,3 +17,8 @@ export const checkStudentIsExamined = (studentId: number, currentYear: number) =
 export const addHealthRecordApi = (studentId: number, body: AddHealthRecordType) => {
   return http.post(`api/health-record/${studentId}`, body, { signal: controller.signal })
 }
+export const getHealthRecordStudentByUserIdApi = (id: number, scholastic: string) => {
+  return http.get(`api/health-record/userId/${id}?Filter=${scholastic}`, {
+    signal: controller.signal
+  })
+}

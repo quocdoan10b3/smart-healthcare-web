@@ -10,11 +10,16 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { Dayjs } from 'dayjs'
 import { toast } from 'react-toastify'
 import { importMedicineApi } from '@/services/MedicineService/medicineService'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store'
 interface PropsType {
   medicine: MedicineType
   refreshMedicines: () => void
 }
 const MedicineItem = ({ medicine, refreshMedicines }: PropsType) => {
+  const role = useSelector((state: RootState) => state.auth.role)
+  console.log('role:', role);
+  
   const [open, setOpen] = useState(false)
   const [quantity, setQuantity] = useState(0)
   const [expDate, setExpDate] = useState<Dayjs | null>(null)
@@ -83,11 +88,15 @@ const MedicineItem = ({ medicine, refreshMedicines }: PropsType) => {
               <p className='text-red-800  font-extralight'>{medicine.quantity} </p>
             </div>
           )}
-          <div className='flex justify-center pt-2'>
-            <Button variant='contained' size='small' onClick={handleClickOpen}>
-              Nhập thuốc
-            </Button>
-          </div>
+          {role?.toUpperCase() === 'STUDENT' ? (
+            <div></div>
+          ) : (
+            <div className='flex justify-center pt-2'>
+              <Button variant='contained' size='small' onClick={handleClickOpen}>
+                Nhập thuốc
+              </Button>
+            </div>
+          )}
         </div>
       </Box>
       <Dialog open={open} onClose={handleClose}>

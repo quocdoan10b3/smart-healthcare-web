@@ -6,6 +6,8 @@ export interface HealthInsuranceType {
   expDate: string
   status: boolean
   scholastic: string
+  address: string
+  dateOfBirth: string
 }
 export interface AddHealthInsuranceType {
   insuranceNumber: string

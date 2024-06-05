@@ -10,6 +10,8 @@ export interface HealthRecordType {
   dentalHealth: string
   allergies: string
   notes: string
+  dateOfBirth: string
+  scholastic: string
 }
 export interface AddHealthRecordType {
   examDate: string

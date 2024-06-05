@@ -12,3 +12,7 @@ export interface FeedbackType {
 export interface AddResponseType {
   response: string
 }
+export interface AddCommentsType {
+  rating: number
+  comments: string
+}

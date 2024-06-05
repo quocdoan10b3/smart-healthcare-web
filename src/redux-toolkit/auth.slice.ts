@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { LoginResponse, UserType } from '@/@types/user'
+import { InfoAccountPut, LoginResponse, UserType } from '@/@types/user'
 
 // import http from '@/utils/http';
 
@@ -34,10 +34,16 @@ const authSlice = createSlice({
       state.accessToken = null
       state.refreshToken = null
       state.role = null
+    },
+    saveInfoUserUpdate: (state, action: PayloadAction<InfoAccountPut>) => {
+      if (state.user) {
+        state.user.avatarUrl = action.payload.avatarUrl
+        state.user.email = action.payload.email
+      }
     }
   }
   // extraReducers: (builder) => {},
 })
-export const { saveUserLogin, saveLogout } = authSlice.actions
+export const { saveUserLogin, saveLogout, saveInfoUserUpdate } = authSlice.actions
 const authReducer = authSlice.reducer
 export default authReducer

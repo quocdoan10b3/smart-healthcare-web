@@ -17,6 +17,7 @@ class Http {
     this.instance.interceptors.request.use(
       (config) => {
         const accessToken = localStorage.getItem('accessToken')
+        console.log('accessToken:', accessToken)
         if (accessToken) {
           config.headers.Authorization = `Bearer ${JSON.parse(accessToken)}`
         }
@@ -41,9 +42,11 @@ class Http {
           return (
             this.refreshTokenRequest
               .then((accessToken: string) => {
-                error.response.config.Authorization = `Bearer ${JSON.parse(accessToken)}`
-                console.log('accessToken', accessToken)
-                return this.instance(error.response.config)
+                if (accessToken) {
+                  error.response.config.Authorization = `Bearer ${JSON.parse(accessToken)}`
+                  console.log('accessToken', accessToken)
+                  return this.instance(error.response.config)
+                }
               })
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               .catch((errorRefreshToken: any) => {

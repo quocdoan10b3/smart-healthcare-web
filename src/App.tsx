@@ -1,5 +1,5 @@
 import { ThemeProvider, createTheme } from '@mui/material'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 import GuestRoute from './routes/guest-route'
 import './index.css'
 import Login from './components/Authenticate/Login'
@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css'
 // import MainLayout from './layouts/StudentLayout/StudentLayout'
 // import HomePage from './pages/HomePage'
 import { useDispatch } from 'react-redux'
-import { saveUserLogin } from './redux-toolkit/auth.slice'
+import { saveLogout, saveUserLogin } from './redux-toolkit/auth.slice'
 import { UserType } from './@types/user'
 import AdminLayout from './layouts/AdminLayout/AdminLayout'
 import Dashboard from './pages/Admin/Dashboard/Dashboard'
@@ -31,13 +31,16 @@ import AddHealthRecord from './components/Admin/AddHealthRecord'
 import AddHealthInsurance from './components/Admin/AddHealthInsurance'
 import AddMedicineForm from './components/Admin/AddMedicineForm'
 import AddUseMedicine from './components/Admin/AddUseMedicine/AddUseMedicine'
+import { useEffect } from 'react'
+import { LocalStorageEventTarget } from './utils/http'
 function App() {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const theme = createTheme({
     typography: {
       fontFamily: 'Lexend'
     }
   })
-  const dispatch = useDispatch()
   const userLocal = localStorage.getItem('user')
   const accessTokenLocal = localStorage.getItem('accessToken')
   const refreshTokenLocal = localStorage.getItem('refreshToken')
@@ -53,6 +56,12 @@ function App() {
     role = JSON.parse(roleLocal)
     dispatch(saveUserLogin({ user, accessToken, refreshToken, role }))
   }
+  useEffect(() => {
+    LocalStorageEventTarget.addEventListener('clearLS', () => {
+      dispatch(saveLogout())
+      navigate('/')
+    })
+  }, [dispatch, navigate])
   return (
     <ThemeProvider theme={theme}>
       <Routes>

@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useState } from 'react'
 import PropTypes from 'prop-types'
 import { ProSidebar, Menu, MenuItem } from 'react-pro-sidebar'
 import 'react-pro-sidebar/dist/css/styles.css'
@@ -15,7 +15,6 @@ import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined'
 import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformationOutlined'
 import ManageHistoryOutlinedIcon from '@mui/icons-material/ManageHistoryOutlined'
 import ViewListOutlinedIcon from '@mui/icons-material/ViewListOutlined'
-import { getUserByIdApi } from '@/services/AuthService/authService'
 interface PropsType {
   title: string
   to: string
@@ -38,21 +37,6 @@ const StudentSidebar = () => {
   const role = useSelector((state: RootState) => state.auth.role)
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [selected, setSelected] = useState('Dashboard')
-  // const avatarUrl = 'https://anhdephd.vn/wp-content/uploads/2022/05/mau-anh-the.jpg'
-  const [avatarUrl, setAvatarUrl] = useState('')
-  useEffect(() => {
-    const fetchUserData = async () => {
-      if (user) {
-        const userData = await getUserByIdApi(user.id)
-        console.log('userData:', userData)
-
-        setAvatarUrl(userData.data.avatarUrl)
-      }
-    }
-
-    fetchUserData()
-  }, [user, user?.id])
-
   return (
     <Box
       sx={{
@@ -171,7 +155,7 @@ const StudentSidebar = () => {
                   alt='profile-user'
                   width={40}
                   height={40}
-                  src={avatarUrl}
+                  src={user && user.avatarUrl ? `${user?.avatarUrl}` : ``}
                   // src={ImageAdminDefault}
                   style={{ cursor: 'pointer', borderRadius: '50%' }}
                 />

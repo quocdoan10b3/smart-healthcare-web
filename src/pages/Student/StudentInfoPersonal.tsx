@@ -6,12 +6,15 @@ import { getStudentByIdApi, updateStudentById } from '@/services/StudentService/
 import { RootState } from '@/store'
 import { Button, FormControl, FormControlLabel, Radio, RadioGroup, TextField } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto'
+import { saveInfoUserUpdate } from '@/redux-toolkit/auth.slice'
+import { InfoAccountPut } from '@/@types/user'
 
 const StudentInfoPersonal = () => {
   const id = useSelector((state: RootState) => state.auth.user?.id)
+  const dispatch = useDispatch()
   const [fullName, setFullName] = useState('')
   const [studentCode, setStudentCode] = useState('')
   const [email, setEmail] = useState('')
@@ -20,7 +23,7 @@ const StudentInfoPersonal = () => {
   const [gender, setGender] = useState('Nam')
   const [address, setAddress] = useState('')
   const [avatarUrl, setAvatarUrl] = useState('')
-  const [avatarString, setAvatarString] = useState('')
+  // const [avatarString, setAvatarString] = useState('')
   const [isEditing, setIsEditing] = useState(false)
   const fileInputRef = useRef(null)
   const [studentId, setStudentId] = useState()
@@ -38,15 +41,16 @@ const StudentInfoPersonal = () => {
       if (id) {
         try {
           const resImage = await ImageChangeOneFile(selectedFile)
-          setAvatarString(resImage)
-          console.log(avatarString)
-          try {
-            console.log('avatarString:', avatarString)
-            await updateAvatarUserApi(id, { avatarUrl: avatarString })
-            toast.success('Cập nhật avatar thành công')
-          } catch (error) {
-            console.log(`Cập nhật avatar thất bại:`, error)
+          // setAvatarString(resImage)
+          // console.log(avatarString)
+          // console.log('avatarString:', avatarString)
+          const infoAccount: InfoAccountPut = {
+            avatarUrl: resImage,
+            email: email
           }
+          await updateAvatarUserApi(id, { avatarUrl: resImage })
+          dispatch(saveInfoUserUpdate(infoAccount))
+          toast.success('Cập nhật avatar thành công')
         } catch (error) {
           console.log(`Cập nhật avatar thất bại:`, error)
         }

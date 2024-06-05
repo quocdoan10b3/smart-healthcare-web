@@ -36,3 +36,8 @@ export const addHealthInsuranceApi = (studentId: number, body: AddHealthInsuranc
 export const updateStatusInsuranceApi = (id: number, body: UpdateStatusInsuranceType) => {
   return http.put(`api/health-insurance/${id}`, body, { signal: controller.signal })
 }
+export const getInsuranceStudentByUserIdApi = (id: number) => {
+  return http.get(`api/health-insurance/userId/${id}`, {
+    signal: controller.signal
+  })
+}
