@@ -121,16 +121,18 @@ const AddNewsForm = () => {
               </div>
             </dl>
 
-            <div className='py-3 flex justify-center items-center gap-5 mt-5'>
-              <Button
-                variant='contained'
-                color='primary'
-                className='px-1 py-1 bg-blue-500 text-white rounded-md mx-4 w-32'
-                onClick={handleAddNews}
-              >
-                Thêm
-              </Button>
-            </div>
+            {role && role.toUpperCase() === 'STAFF' && (
+              <div className='py-3 flex justify-center items-center gap-5 mt-5'>
+                <Button
+                  variant='contained'
+                  color='primary'
+                  className='px-1 py-1 bg-blue-500 text-white rounded-md mx-4 w-32'
+                  onClick={handleAddNews}
+                >
+                  Thêm
+                </Button>
+              </div>
+            )}
           </div>
         </form>
       </div>
