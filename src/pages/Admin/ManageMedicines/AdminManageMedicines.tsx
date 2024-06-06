@@ -5,7 +5,10 @@ import { getMedicinesApi } from '@/services/MedicineService/medicineService'
 import MedicineItem from './MedicineItem'
 import HeaderAdmin from '@/components/Admin/HeaderAdmin'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store'
 const AdminManageMedicines = () => {
+  const role = useSelector((state: RootState) => state.auth.role)
   const [search, setSearch] = useState<string>('')
   const [listMedicines, setListMedicines] = useState<MedicineType[]>([])
   const [currentPage, setCurrentPage] = useState<number>(1)
@@ -42,13 +45,16 @@ const AdminManageMedicines = () => {
     <div className='p-4'>
       <HeaderAdmin title='Quản lý kho thuốc của trường học' />
       <div className='flex justify-between'>
-        <Button
-          variant='contained'
-          onClick={() => navigate('/add-medicine')}
-          sx={{ width: 200, background: '#068124', my: 2 }}
-        >
-          Thêm thuốc khác
-        </Button>
+        {role && role.toUpperCase() === 'ADMIN' && (
+          <Button
+            variant='contained'
+            onClick={() => navigate('/add-medicine')}
+            sx={{ width: 200, background: '#068124', my: 2 }}
+          >
+            Thêm thuốc khác
+          </Button>
+        )}
+
         <TextField
           size='small'
           label='Tìm kiếm'

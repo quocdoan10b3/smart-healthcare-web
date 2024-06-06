@@ -12,7 +12,10 @@ const Topbar = () => {
         marginBottom: 1,
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        position: 'sticky',
+        top: 0,
+        zIndex: 1
       }}
     >
       <Box sx={{ flexGrow: 1, textAlign: 'center' }}>

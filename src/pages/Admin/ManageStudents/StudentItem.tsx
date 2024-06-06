@@ -2,13 +2,16 @@ import { StudentType } from '@/@types/student'
 import { formatDateTime } from '@/helpers/formatDateTime'
 import { checkHealthInsurance } from '@/services/HealthInsuranceService/healthInsuranceService'
 import { checkStudentIsExamined } from '@/services/HealthRecordService/healthRecordService'
+import { RootState } from '@/store'
 import { Button, Menu, MenuItem } from '@mui/material'
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 interface PropsType {
   student: StudentType
 }
 const StudentItem = ({ student }: PropsType) => {
+  const role = useSelector((state: RootState) => state.auth.role)
   const navigate = useNavigate()
   const [hasHealthCheck, setHasHealthCheck] = useState(false)
   const [hasInsuranceCheck, setHasInsuranceCheck] = useState(false)
@@ -48,7 +51,8 @@ const StudentItem = ({ student }: PropsType) => {
     setAnchorEl(null)
   }
   const handleAddHealthRecord = () => {
-    navigate('/add-health-record', { state: { student } })
+    if (role && role.toUpperCase() === 'ADMIN') navigate('/add-health-record', { state: { student } })
+    else navigate('/staff-add-health-record', { state: { student } })
   }
 
   const handleAddBHYT = () => {
@@ -56,7 +60,8 @@ const StudentItem = ({ student }: PropsType) => {
   }
 
   const handleUseMedicine = () => {
-    navigate('/admin-use-medicine', { state: { student } })
+    if (role && role.toUpperCase() === 'ADMIN') navigate('/admin-use-medicine', { state: { student } })
+    else navigate('/staff-use-medicine', { state: { student } })
   }
   return (
     <tr className='odd:bg-white even:bg-gray-50 border-b '>
@@ -89,7 +94,9 @@ const StudentItem = ({ student }: PropsType) => {
           }}
         >
           {!hasHealthCheck && <MenuItem onClick={handleAddHealthRecord}>Thêm hồ sơ khám sức khỏe</MenuItem>}
-          {!hasInsuranceCheck && <MenuItem onClick={handleAddBHYT}>Thêm BHYT</MenuItem>}
+          {!hasInsuranceCheck && role && role.toUpperCase() === 'ADMIN' && (
+            <MenuItem onClick={handleAddBHYT}>Thêm BHYT</MenuItem>
+          )}
           <MenuItem onClick={handleUseMedicine}>Sử dụng thuốc</MenuItem>
         </Menu>
       </td>

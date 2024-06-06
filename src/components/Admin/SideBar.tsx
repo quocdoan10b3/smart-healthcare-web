@@ -42,7 +42,11 @@ const AdminSidebar = () => {
   return (
     <Box
       sx={{
+        position: 'fixed',
         height: '100vh',
+        zIndex: 1000,
+        display: 'flex',
+        flexDirection: 'column',
         '& .pro-sidebar-inner': {
           background: `#4f65d2 !important`
         },
@@ -158,26 +162,26 @@ const AdminSidebar = () => {
               setSelected={setSelected}
             />
           </Box>
-          {!isCollapsed && (
-            <Box mt='30px'>
-              <Box display='flex' justifyContent='center' alignItems='center'>
-                <img
-                  alt='profile-user'
-                  width={40}
-                  height={40}
-                  //   src={user?.avatarUrl || ImageAdminDefault}
-                  src={ImageAdminDefault}
-                  style={{ cursor: 'pointer', borderRadius: '50%' }}
-                />
-                <p className='pt-2 font-bold text-gray-100 ml-5'>{user?.fullName}</p>
-              </Box>
-              <Box display='flex' justifyContent='center' alignItems='center' mt='1px'>
-                <ButtonLogout />
-              </Box>
-            </Box>
-          )}
         </Menu>
       </ProSidebar>
+      {!isCollapsed && (
+        <Box mt='auto' sx={{ background: '#4f65d2' }}>
+          <Box display='flex' justifyContent='center' alignItems='center'>
+            <img
+              alt='profile-user'
+              width={40}
+              height={40}
+              //   src={user?.avatarUrl || ImageAdminDefault}
+              src={ImageAdminDefault}
+              style={{ cursor: 'pointer', borderRadius: '50%' }}
+            />
+            <p className='pt-2 font-bold text-gray-100 ml-5'>{user?.fullName}</p>
+          </Box>
+          <Box display='flex' justifyContent='center' alignItems='center' mt='1px' mb='30px'>
+            <ButtonLogout />
+          </Box>
+        </Box>
+      )}
     </Box>
   )
 }

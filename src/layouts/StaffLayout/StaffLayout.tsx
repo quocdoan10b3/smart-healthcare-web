@@ -4,18 +4,18 @@ import { useSelector } from 'react-redux'
 import { Outlet, useNavigate } from 'react-router-dom'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ImageNotPermission from '@/assets/images/not-permission.png'
-import AdminSidebar from '@/components/Admin/SideBar'
 import LoginIcon from '@mui/icons-material/Login'
 import Topbar from '@/components/Admin/TopBar'
-const AdminLayout = () => {
+import StaffSidebar from '@/components/Staff/StaffSideBar'
+const StaffLayout = () => {
   const role = useSelector((state: RootState) => state.auth.role)
   console.log(role)
   const navigate = useNavigate()
   return (
     <div>
-      {role?.toUpperCase() === 'ADMIN' ? (
+      {role?.toUpperCase() === 'STAFF' ? (
         <div className='flex relative h-full bg-[#f4efff]' style={{ minHeight: '100vh' }}>
-          <AdminSidebar />
+          <StaffSidebar />
           <main className='h-full w-full bg-[#f4efff]' style={{ marginLeft: '270px', transition: 'margin-left 0.3s' }}>
             <Topbar />
             <Outlet />
@@ -31,7 +31,7 @@ const AdminLayout = () => {
                     Bạn không có quyền truy cập liên kết này 👘
                   </h1>
                   <Alert sx={{ mb: 4 }} severity='error'>
-                    Bạn vừa truy cập vào liên kết dành cho admin !
+                    Bạn vừa truy cập vào liên kết dành cho nhân viên !
                   </Alert>
                   <Alert sx={{ mb: 4 }} severity='success'>
                     Quay lại và trải nghiệm ứng dụng !
@@ -69,4 +69,4 @@ const AdminLayout = () => {
   )
 }
 
-export default AdminLayout
+export default StaffLayout

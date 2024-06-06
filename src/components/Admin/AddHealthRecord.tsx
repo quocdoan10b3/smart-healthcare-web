@@ -6,8 +6,11 @@ import { StudentType } from '@/@types/student'
 import { AddHealthRecordType } from '@/@types/healthRecord'
 import { toast } from 'react-toastify'
 import { addHealthRecordApi } from '@/services/HealthRecordService/healthRecordService'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store'
 
 const AddHealthRecord = () => {
+  const role = useSelector((state: RootState) => state.auth.role)
   const location = useLocation()
   const { student } = location.state as { student: StudentType }
   const idStudent = student.id
@@ -38,7 +41,8 @@ const AddHealthRecord = () => {
       console.log('response add:', response)
       if (response && response.status === 200) {
         toast.success('Thêm hồ sơ khám sức khỏe thành công')
-        navigate('/admin-manage-health-records')
+        if (role && role.toUpperCase() === 'ADMIN') navigate('/admin-manage-health-records')
+        else navigate('/health-records')
       } else {
         console.error(`Thêm hồ sơ khám sức khỏe thất bại:`, response)
       }

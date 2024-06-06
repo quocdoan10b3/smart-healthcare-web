@@ -14,9 +14,9 @@ const StudentLayout = () => {
   return (
     <div>
       {role?.toUpperCase() === 'STUDENT' ? (
-        <div className='flex relative h-full bg-[#f4efff]'>
+        <div className='flex relative h-full bg-[#f4efff]' style={{ minHeight: '100vh' }}>
           <StudentSidebar />
-          <main className='h-full w-full bg-[#f4efff]'>
+          <main className='h-full w-full bg-[#f4efff]' style={{ marginLeft: '270px', transition: 'margin-left 0.3s' }}>
             <Topbar />
             <Outlet />
           </main>
@@ -31,7 +31,7 @@ const StudentLayout = () => {
                     Bạn không có quyền truy cập liên kết này 👘
                   </h1>
                   <Alert sx={{ mb: 4 }} severity='error'>
-                    Bạn vừa truy cập vào liên kết dành cho student !
+                    Bạn vừa truy cập vào liên kết dành cho học sinh !
                   </Alert>
                   <Alert sx={{ mb: 4 }} severity='success'>
                     Quay lại và trải nghiệm ứng dụng !

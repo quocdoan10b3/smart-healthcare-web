@@ -11,10 +11,8 @@ import { RootState } from '@/store'
 import AccountBoxIcon from '@mui/icons-material/AccountBox'
 import ButtonLogout from '../Authenticate/ButtonLogout'
 import ImageLogo from '@/assets/images/logo_web.jpg'
-import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined'
 import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformationOutlined'
 import ManageHistoryOutlinedIcon from '@mui/icons-material/ManageHistoryOutlined'
-import ViewListOutlinedIcon from '@mui/icons-material/ViewListOutlined'
 interface PropsType {
   title: string
   to: string
@@ -32,9 +30,9 @@ const Item = ({ title, to, icon, selected, setSelected }: PropsType) => {
   )
 }
 
-const StudentSidebar = () => {
+const StaffSidebar = () => {
   const user = useSelector((state: RootState) => state.auth.user)
-  // const role = useSelector((state: RootState) => state.auth.role)
+  //   const role = useSelector((state: RootState) => state.auth.role)
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [selected, setSelected] = useState('Dashboard')
   return (
@@ -77,7 +75,7 @@ const StudentSidebar = () => {
           >
             {!isCollapsed && (
               <Box display='flex' justifyContent='space-between' alignItems='center' ml='15px'>
-                <p className='font-bold text-gray-100'>HỌC SINH</p>
+                <p className='font-bold text-gray-100'>CÁN BỘ Y TẾ</p>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon sx={{ color: '#fff' }} />
                 </IconButton>
@@ -110,44 +108,30 @@ const StudentSidebar = () => {
               setSelected={setSelected}
             /> */}
             <Item
-              title='Thông tin cá nhân'
-              to='student-info-personal'
+              title='Danh sách học sinh'
+              to='get-students'
               icon={<AccountBoxIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title='Hồ sơ khám sức khỏe'
-              to='student-health-record'
+              to='health-records'
               icon={<MeetingRoomIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title='Bảo hiểm y tế'
-              to='student-health-insurance'
-              icon={<ViewListOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
               title='Kho thuốc của trường'
-              to='student-view-medicines'
+              to='view-medicines'
               icon={<MedicalInformationOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title='Lịch sử dùng thuốc'
-              to='student-medicines-usage-history'
+              to='history-use-medicines'
               icon={<ManageHistoryOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title='Đánh giá công tác y tế'
-              to='/student-feedback'
-              icon={<FeedbackOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
@@ -183,4 +167,4 @@ Item.propTypes = {
   selected: PropTypes.string.isRequired,
   setSelected: PropTypes.func.isRequired
 }
-export default StudentSidebar
+export default StaffSidebar

@@ -33,6 +33,8 @@ import AddMedicineForm from './components/Admin/AddMedicineForm'
 import AddUseMedicine from './components/Admin/AddUseMedicine/AddUseMedicine'
 import { useEffect } from 'react'
 import { LocalStorageEventTarget } from './utils/http'
+import StaffLayout from './layouts/StaffLayout/StaffLayout'
+import AddNewsForm from './components/Admin/AddNewsForm'
 function App() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -84,6 +86,7 @@ function App() {
           <Route path='/add-health-insurance' element={<AddHealthInsurance />} />
           <Route path='/add-medicine' element={<AddMedicineForm />} />
           <Route path='/admin-use-medicine' element={<AddUseMedicine />} />
+          <Route path='/admin-add-news' element={<AddNewsForm />} />
         </Route>
         <Route path='' element={<StudentLayout />}>
           <Route path='/student' element={<Dashboard />} />
@@ -93,6 +96,15 @@ function App() {
           <Route path='/student-view-medicines' element={<StudentViewMedicines />} />
           <Route path='/student-medicines-usage-history' element={<StudentMedicinesUsageHistory />} />
           <Route path='/student-feedback' element={<StudentFeedBack />} />
+        </Route>
+        <Route path='' element={<StaffLayout />}>
+          <Route path='/staff' element={<Dashboard />} />
+          <Route path='/staff-add-health-record' element={<AddHealthRecord />} />
+          <Route path='/staff-use-medicine' element={<AddUseMedicine />} />
+          <Route path='/health-records' element={<AdminManageHealthRecords />} />
+          <Route path='/get-students' element={<AdminManageStudents />} />
+          <Route path='/view-medicines' element={<AdminManageMedicines />} />
+          <Route path='/history-use-medicines' element={<AdminManageUsageHistory />} />
         </Route>
       </Routes>
       <ToastContainer

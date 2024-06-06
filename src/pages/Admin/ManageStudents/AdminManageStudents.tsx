@@ -5,7 +5,10 @@ import StudentItem from './StudentItem'
 import AddStudentForm from '@/components/Admin/AddStudentForm'
 import { StudentType } from '@/@types/student'
 import { getAllStudentsApi } from '@/services/StudentService/studentService'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store'
 const AdminManageStudents = () => {
+  const role = useSelector((state: RootState) => state.auth.role)
   const [search, setSearch] = useState<string>('')
   const [listStudents, setListStudents] = useState<StudentType[]>([])
   const [currentPage, setCurrentPage] = useState<number>(1)
@@ -48,9 +51,12 @@ const AdminManageStudents = () => {
     <div className='p-4 '>
       <HeaderAdmin title='Quản lý danh sách học sinh' />
       <div className='flex justify-between'>
-        <Button variant='contained' onClick={handleAddStudent} sx={{ width: 200, background: '#068124', my: 2 }}>
-          Thêm học sinh
-        </Button>
+        {role && role.toUpperCase() === 'ADMIN' && (
+          <Button variant='contained' onClick={handleAddStudent} sx={{ width: 200, background: '#068124', my: 2 }}>
+            Thêm học sinh
+          </Button>
+        )}
+
         <TextField
           size='small'
           label='Tìm kiếm'
@@ -100,7 +106,9 @@ const AdminManageStudents = () => {
           <Pagination color='primary' count={totalPages} page={currentPage} onChange={handleChangePage} />
         </div>
       </div>
-      <AddStudentForm open={openDialog} handleClose={handleCloseDialog} refreshStudents={refreshStudents} />
+      {role && role.toUpperCase() === 'ADMIN' && (
+        <AddStudentForm open={openDialog} handleClose={handleCloseDialog} refreshStudents={refreshStudents} />
+      )}
     </div>
   )
 }

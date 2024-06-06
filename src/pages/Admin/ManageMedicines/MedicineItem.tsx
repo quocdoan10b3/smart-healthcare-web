@@ -18,8 +18,8 @@ interface PropsType {
 }
 const MedicineItem = ({ medicine, refreshMedicines }: PropsType) => {
   const role = useSelector((state: RootState) => state.auth.role)
-  console.log('role:', role);
-  
+  console.log('role:', role)
+
   const [open, setOpen] = useState(false)
   const [quantity, setQuantity] = useState(0)
   const [expDate, setExpDate] = useState<Dayjs | null>(null)
@@ -88,14 +88,14 @@ const MedicineItem = ({ medicine, refreshMedicines }: PropsType) => {
               <p className='text-red-800  font-extralight'>{medicine.quantity} </p>
             </div>
           )}
-          {role?.toUpperCase() === 'STUDENT' ? (
-            <div></div>
-          ) : (
+          {role?.toUpperCase() === 'ADMIN' ? (
             <div className='flex justify-center pt-2'>
               <Button variant='contained' size='small' onClick={handleClickOpen}>
                 Nhập thuốc
               </Button>
             </div>
+          ) : (
+            <div></div>
           )}
         </div>
       </Box>
@@ -150,6 +150,7 @@ const MedicineItem = ({ medicine, refreshMedicines }: PropsType) => {
                   value={expDate}
                   onChange={(newValue) => setExpDate(newValue)}
                   slotProps={{ textField: { size: 'small' } }}
+                  format='DD/MM/YYYY'
                 />
               </DemoContainer>
             </LocalizationProvider>

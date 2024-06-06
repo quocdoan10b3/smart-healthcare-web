@@ -117,6 +117,7 @@ const AddStudentForm = ({ open, handleClose, refreshStudents }: PropsType) => {
                 value={dateOfBirth}
                 onChange={(newValue) => setDateOfBirth(newValue)}
                 sx={{ width: '300px' }}
+                format='DD/MM/YYYY'
               />
             </DemoContainer>
           </LocalizationProvider>
