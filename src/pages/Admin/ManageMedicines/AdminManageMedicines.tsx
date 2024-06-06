@@ -45,7 +45,7 @@ const AdminManageMedicines = () => {
     <div className='p-4'>
       <HeaderAdmin title='Quản lý kho thuốc của trường học' />
       <div className='flex justify-between'>
-        {role && role.toUpperCase() === 'ADMIN' && (
+        {/* {role && role.toUpperCase() === 'ADMIN' && (
           <Button
             variant='contained'
             onClick={() => navigate('/add-medicine')}
@@ -53,8 +53,16 @@ const AdminManageMedicines = () => {
           >
             Thêm thuốc khác
           </Button>
+        )} */}
+        {role && role.toUpperCase() === 'STAFF' && (
+          <Button
+            variant='contained'
+            onClick={() => navigate('/staff-add-medicine')}
+            sx={{ width: 200, background: '#068124', my: 2 }}
+          >
+            Thêm thuốc khác
+          </Button>
         )}
-
         <TextField
           size='small'
           label='Tìm kiếm'

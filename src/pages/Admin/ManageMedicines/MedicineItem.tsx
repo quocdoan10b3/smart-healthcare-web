@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ImportMedicineType, MedicineType } from '@/@types/medicine'
 import { Box, Button, Dialog, DialogActions, DialogContent, TextField, Tooltip } from '@mui/material'
 // import ImageSalonPas from '@/assets/images/salonpas.jpg'
@@ -7,22 +8,26 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-import { Dayjs } from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import { toast } from 'react-toastify'
 import { importMedicineApi } from '@/services/MedicineService/medicineService'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
+import { getStaffIdByUserIdApi } from '@/services/AuthService/authService'
 interface PropsType {
   medicine: MedicineType
   refreshMedicines: () => void
 }
 const MedicineItem = ({ medicine, refreshMedicines }: PropsType) => {
+  const user = useSelector((state: RootState) => state.auth.user)
   const role = useSelector((state: RootState) => state.auth.role)
+  const [staffId, setStaffId] = useState(1)
   console.log('role:', role)
 
   const [open, setOpen] = useState(false)
   const [quantity, setQuantity] = useState(0)
   const [expDate, setExpDate] = useState<Dayjs | null>(null)
+  const [errors, setErrors] = useState({ quantity: '', expDate: '' })
   const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuantity(Number(event.target.value))
   }
@@ -33,12 +38,49 @@ const MedicineItem = ({ medicine, refreshMedicines }: PropsType) => {
   const handleClose = () => {
     setOpen(false)
   }
+  const handleQuantityBlur = () => {
+    if (quantity <= 0) {
+      setErrors((prevErrors: any) => ({
+        ...prevErrors,
+        quantity: 'Số lượng phải lớn hơn 0'
+      }))
+    } else {
+      setErrors((prevErrors: any) => ({
+        ...prevErrors,
+        quantity: ''
+      }))
+    }
+  }
   const handleConfirm = async () => {
+    const today = new Date()
+
+    const errorsObj: any = {}
+    let isValid = true
+
+    if (quantity <= 0) {
+      errorsObj.quantity = 'Số lượng phải lớn hơn 0'
+      isValid = false
+    }
+
+    if (expDate && expDate.toDate() <= today) {
+      errorsObj.expDate = 'Hạn sử dụng phải lớn hơn ngày hiện tại'
+      isValid = false
+    }
+
+    setErrors(errorsObj)
+
+    if (!isValid) return
+
+    if (user) {
+      const res = await getStaffIdByUserIdApi(user?.id)
+      setStaffId(res.data.id)
+    }
     const importMedicine: ImportMedicineType = {
       quantity: quantity,
       importDate: new Date().toISOString(),
       expDate: expDate ? expDate.format('YYYY-MM-DD') : '',
-      medicineId: medicine.id
+      medicineId: medicine.id,
+      staffId: staffId
     }
     try {
       const response = await importMedicineApi(importMedicine)
@@ -52,6 +94,9 @@ const MedicineItem = ({ medicine, refreshMedicines }: PropsType) => {
     } catch (error) {
       console.log(`Nhập thuốc thất bại:`, error)
     }
+  }
+  const getCurrentDate = () => {
+    return dayjs()
   }
   return (
     <div className='shadow-md p-2 rounded-lg mx-auto bg-green-100'>
@@ -88,7 +133,7 @@ const MedicineItem = ({ medicine, refreshMedicines }: PropsType) => {
               <p className='text-red-800  font-extralight'>{medicine.quantity} </p>
             </div>
           )}
-          {role?.toUpperCase() === 'ADMIN' ? (
+          {role && ['STAFF'].includes(role.toUpperCase()) ? (
             <div className='flex justify-center pt-2'>
               <Button variant='contained' size='small' onClick={handleClickOpen}>
                 Nhập thuốc
@@ -139,6 +184,9 @@ const MedicineItem = ({ medicine, refreshMedicines }: PropsType) => {
               variant='outlined'
               value={quantity}
               onChange={handleQuantityChange}
+              error={!!errors.quantity}
+              helperText={errors.quantity}
+              onBlur={handleQuantityBlur}
               sx={{ width: '64.5%' }}
             />
           </div>
@@ -151,6 +199,20 @@ const MedicineItem = ({ medicine, refreshMedicines }: PropsType) => {
                   onChange={(newValue) => setExpDate(newValue)}
                   slotProps={{ textField: { size: 'small' } }}
                   format='DD/MM/YYYY'
+                  minDate={getCurrentDate()}
+                  onError={(error) => {
+                    if (error) {
+                      setErrors((prevErrors: any) => ({
+                        ...prevErrors,
+                        expDate: 'Ngày không hợp lệ'
+                      }))
+                    } else {
+                      setErrors((prevErrors: any) => ({
+                        ...prevErrors,
+                        expDate: ''
+                      }))
+                    }
+                  }}
                 />
               </DemoContainer>
             </LocalizationProvider>

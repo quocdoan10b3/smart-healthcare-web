@@ -17,6 +17,7 @@ import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined'
 import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformationOutlined'
 import ManageHistoryOutlinedIcon from '@mui/icons-material/ManageHistoryOutlined'
 import ViewListOutlinedIcon from '@mui/icons-material/ViewListOutlined'
+import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined';
 interface PropsType {
   title: string
   to: string
@@ -158,6 +159,13 @@ const AdminSidebar = () => {
               title='Đánh giá và hỏi đáp'
               to='admin-manage-feedback'
               icon={<FeedbackOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title='Cán bộ y tế'
+              to='admin-manage-staff'
+              icon={<EngineeringOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />

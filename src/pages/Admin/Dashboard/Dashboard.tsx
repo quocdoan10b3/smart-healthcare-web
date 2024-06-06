@@ -39,7 +39,8 @@ const Dashboard = () => {
     })
   }
   const handleAddNews = () => {
-    navigate('/admin-add-news')
+    if (role && role?.toUpperCase() === 'ADMIN') navigate('/admin-add-news')
+    else navigate('/staff-add-news')
   }
   return (
     <div className='p-4'>
@@ -50,7 +51,7 @@ const Dashboard = () => {
         <div className='flex justify-between items-center'>
           <h2 className='text-cyan-600 text-lg'>Tin tức</h2>
           <div className='items-center'>
-            {role && role.toUpperCase() === 'ADMIN' && (
+            {role && ['ADMIN', 'STAFF'].includes(role.toUpperCase()) && (
               <Button
                 variant='contained'
                 onClick={handleAddNews}

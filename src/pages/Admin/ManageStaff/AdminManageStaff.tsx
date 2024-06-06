@@ -1,16 +1,16 @@
 import HeaderAdmin from '@/components/Admin/HeaderAdmin'
 import { Button, Pagination, TextField } from '@mui/material'
 import { ChangeEvent, useEffect, useState } from 'react'
-import StudentItem from './StudentItem'
-import AddStudentForm from '@/components/Admin/AddStudentForm'
-import { StudentType } from '@/@types/student'
-import { getAllStudentsApi } from '@/services/StudentService/studentService'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
-const AdminManageStudents = () => {
+import StaffItem from './StaffItem'
+import { StaffType } from '@/@types/staff'
+import { getAllStaffApi } from '@/services/StaffService/staffService'
+import AddStaffForm from '@/components/Admin/AddStaffForm'
+const AdminManageStaff = () => {
   const role = useSelector((state: RootState) => state.auth.role)
   const [search, setSearch] = useState<string>('')
-  const [listStudents, setListStudents] = useState<StudentType[]>([])
+  const [listStaff, setListStaff] = useState<StaffType[]>([])
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [totalPages, setTotalPages] = useState<number>(1)
   const [openDialog, setOpenDialog] = useState<boolean>(false)
@@ -19,14 +19,14 @@ const AdminManageStudents = () => {
     setSearch(event.target.value as string)
   }
   useEffect(() => {
-    getListStudents(currentPage, search)
+    getListStaff(currentPage, search)
   }, [currentPage, search])
-  const getListStudents = async (currentPage: number, search: string) => {
+  const getListStaff = async (currentPage: number, search: string) => {
     try {
-      const response = await getAllStudentsApi(currentPage, search)
+      const response = await getAllStaffApi(currentPage, search)
       if (response && response.status === 200) {
         setTotalPages(response.data.totalPages)
-        setListStudents(response.data.items)
+        setListStaff(response.data.items)
       }
     } catch (err) {
       console.log(err)
@@ -35,7 +35,7 @@ const AdminManageStudents = () => {
   const handleChangePage = (_event: ChangeEvent<unknown>, value: number) => {
     setCurrentPage(value)
   }
-  const handleAddStudent = () => {
+  const handleAddStaff = () => {
     setOpenDialog(true)
   }
 
@@ -43,8 +43,8 @@ const AdminManageStudents = () => {
     setOpenDialog(false)
   }
 
-  const refreshStudents = () => {
-    getListStudents(currentPage, search)
+  const refreshStaff = () => {
+    getListStaff(currentPage, search)
   }
 
   return (
@@ -52,8 +52,8 @@ const AdminManageStudents = () => {
       <HeaderAdmin title='Quản lý danh sách học sinh' />
       <div className='flex justify-between'>
         {role && role.toUpperCase() === 'ADMIN' && (
-          <Button variant='contained' onClick={handleAddStudent} sx={{ width: 200, background: '#068124', my: 2 }}>
-            Thêm học sinh
+          <Button variant='contained' onClick={handleAddStaff} sx={{ width: 200, background: '#068124', my: 2 }}>
+            Thêm nhân viên
           </Button>
         )}
 
@@ -73,34 +73,23 @@ const AdminManageStudents = () => {
               <th scope='col' className='px-4 py-3 '>
                 ID
               </th>
-              <th scope='col' className='px-3 py-3 '>
-                Mã học sinh
+              <th scope='col' className='px-6 py-3 '>
+                Tên nhân viên
               </th>
-              <th scope='col' className='px-3 py-3'>
-                Tên học sinh
-              </th>
-              <th scope='col' className='px-3 py-3'>
-                Lớp
-              </th>
-              <th scope='col' className='px-3 py-3'>
+              <th scope='col' className='px-6 py-3'>
                 Ngày sinh
               </th>
-              <th scope='col' className='px-3 py-3'>
+              <th scope='col' className='px-6 py-3'>
                 Giới tính
               </th>
-              <th scope='col' className='px-3 py-3'>
+              <th scope='col' className='px-6 py-3'>
                 Địa chỉ
               </th>
-              {role && role.toUpperCase() != 'ADMIN' && (
-                <th scope='col' className='px-3 py-3'>
-                  Lựa chọn
-                </th>
-              )}
             </tr>
           </thead>
           <tbody>
-            {listStudents.map((hr) => (
-              <StudentItem student={hr} />
+            {listStaff.map((hr) => (
+              <StaffItem staff={hr} />
             ))}
           </tbody>
         </table>
@@ -109,10 +98,10 @@ const AdminManageStudents = () => {
         </div>
       </div>
       {role && role.toUpperCase() === 'ADMIN' && (
-        <AddStudentForm open={openDialog} handleClose={handleCloseDialog} refreshStudents={refreshStudents} />
+        <AddStaffForm open={openDialog} handleClose={handleCloseDialog} refreshStaff={refreshStaff} />
       )}
     </div>
   )
 }
 
-export default AdminManageStudents
+export default AdminManageStaff

@@ -7,7 +7,12 @@ import { useNavigate } from 'react-router-dom'
 import { ImageChangeOneFile } from '@/helpers/changeFileImage'
 import { AddNewsType } from '@/@types/notification'
 import { addNewsApi } from '@/services/FeedbackService/feedbackService'
+import { getStaffIdByUserIdApi } from '@/services/AuthService/authService'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store'
 const AddNewsForm = () => {
+  const user = useSelector((state: RootState) => state.auth.user)
+  const role = useSelector((state: RootState) => state.auth.role)
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [avatarUrl, setAvatarUrl] = useState('https://minio.whitemage.fun/healthcare/virus.jpg')
@@ -31,14 +36,17 @@ const AddNewsForm = () => {
   const handleAddNews = async () => {
     console.log(avatarUrl)
     console.log('imageFile:', imageFile)
-    if (imageFile) {
+    if (imageFile && user) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const resImage = await ImageChangeOneFile(imageFile)
+      const res = await getStaffIdByUserIdApi(user.id)
+      const staffId = res.data.id
       const addNews: AddNewsType = {
         title: title,
         content: content,
         dateCreatAt: new Date().toISOString(),
-        image: resImage
+        image: resImage,
+        staffId: Number(staffId)
       }
       try {
         const response = await addNewsApi(addNews)
@@ -46,7 +54,8 @@ const AddNewsForm = () => {
 
         if (response && response.status === 200) {
           toast.success('Thêm tin tức thành công')
-          navigate('/admin')
+          if (role && role.toUpperCase() === 'ADMIN') navigate('/admin')
+          else navigate('/staff')
         } else {
           console.error(`Thất bại:`, response)
         }

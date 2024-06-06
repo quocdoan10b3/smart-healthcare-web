@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AddStudentType } from '@/@types/student'
-import { addStudentApi } from '@/services/StudentService/studentService'
+import { AddStaffType } from '@/@types/staff'
+import { addStaffApi } from '@/services/StaffService/staffService'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import {
   Button,
@@ -18,22 +18,21 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
-import { Dayjs } from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
 interface PropsType {
   open: boolean
   handleClose: () => void
-  refreshStudents: () => void
+  refreshStaff: () => void
 }
-const AddStudentForm = ({ open, handleClose, refreshStudents }: PropsType) => {
+const AddStaffForm = ({ open, handleClose, refreshStaff }: PropsType) => {
   const [showPassword, setShowPassword] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [fullName, setFullName] = useState('')
   const [userName, setUserName] = useState('')
   const [avatarUrl] = useState('https://minio.whitemage.fun/healthcare/avatar_default.jpg')
-  const [classes, setClasses] = useState('')
   const [dateOfBirth, setDateOfBirth] = useState<Dayjs | null>(null)
   const [gender, setGender] = useState('nam')
   const [address, setAddress] = useState('')
@@ -43,19 +42,12 @@ const AddStudentForm = ({ open, handleClose, refreshStudents }: PropsType) => {
   const validateForm = () => {
     let valid = true
     const errorsObj: any = {}
-
-    if (!userName.match(/^HS\d{4}\d{3}$/)) {
-      errorsObj.userName = 'Mã học sinh không hợp lệ'
+    if (!userName.match(/^CBYT\d{4}$/)) {
+      errorsObj.userName = 'Tên tài khoản không hợp lệ'
       valid = false
     }
-
     if (!fullName.trim()) {
-      errorsObj.fullName = 'Vui lòng nhập tên học sinh'
-      valid = false
-    }
-
-    if (!classes.match(/^\d{1}\/\d{1}\/\d{1}$/)) {
-      errorsObj.classes = 'Lớp không hợp lệ'
+      errorsObj.fullName = 'Vui lòng nhập tên nhân viên'
       valid = false
     }
 
@@ -92,23 +84,22 @@ const AddStudentForm = ({ open, handleClose, refreshStudents }: PropsType) => {
     if (validateForm()) {
       let gd = false
       if (gender === 'nam') gd = true
-      const newStudent: AddStudentType = {
+      const newStaff: AddStaffType = {
         email,
         password,
         fullName,
         userName,
         avatarUrl,
-        class: classes,
         dateOfBirth: dateOfBirth ? dateOfBirth.format('YYYY-MM-DD') : '',
         gender: gd,
         address
       }
       try {
-        const response = await addStudentApi(newStudent)
+        const response = await addStaffApi(newStaff)
         if (response && response.status === 200) {
           handleClose()
-          toast.success('Thêm học sinh thành công')
-          refreshStudents()
+          toast.success('Thêm nhân viên thành công')
+          refreshStaff()
         }
       } catch (err) {
         console.log(err)
@@ -118,43 +109,13 @@ const AddStudentForm = ({ open, handleClose, refreshStudents }: PropsType) => {
   return (
     <Dialog open={open} onClose={handleClose}>
       {/* <DialogTitle>THÊM HỌC SINH MỚI</DialogTitle> */}
-      <h3 className='text-cyan-800 font-medium uppercase text-center text-2xl mt-5 mb-2'>THÊM HỌC SINH MỚI</h3>
+      <h3 className='text-cyan-800 font-medium uppercase text-center text-2xl mt-5 mb-2'>THÊM NHÂN VIÊN MỚI</h3>
       <DialogContent>
         <div className='py-1 flex justify-between items-center gap-7 mb-1'>
-          <dt className='text-base font-medium text-gray-800 '>Mã học sinh</dt>
+          <dt className='text-base font-medium text-gray-800 '>Tên nhân viên</dt>
           <TextField
             type='text'
-            label='Nhập mã học sinh'
-            name='studentCode'
-            variant='outlined'
-            value={userName}
-            sx={{ width: '70%' }}
-            onChange={(e) => setUserName(e.target.value)}
-            error={!!errors.userName}
-            helperText={errors.userName}
-            size='small'
-            onBlur={(e) => {
-              if (!e.target.value.match(/^HS\d{4}\d{3}$/)) {
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                setErrors((prevErrors: any) => ({
-                  ...prevErrors,
-                  userName: 'Mã học sinh không hợp lệ'
-                }))
-              } else {
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                setErrors((prevErrors: any) => ({
-                  ...prevErrors,
-                  userName: ''
-                }))
-              }
-            }}
-          />
-        </div>
-        <div className='py-1 flex justify-between items-center gap-7 mb-1'>
-          <dt className='text-base font-medium text-gray-800 '>Tên học sinh</dt>
-          <TextField
-            type='text'
-            label='Tên học sinh'
+            placeholder='Nhập tên nhân viên'
             name='name'
             fullWidth
             variant='outlined'
@@ -180,29 +141,29 @@ const AddStudentForm = ({ open, handleClose, refreshStudents }: PropsType) => {
           />
         </div>
         <div className='py-1 flex justify-between items-center gap-7 mb-1'>
-          <dt className='text-base font-medium text-gray-800 '>Lớp</dt>
+          <dt className='text-base font-medium text-gray-800 '>Tên tài khoản</dt>
           <TextField
             type='text'
-            label='Lớp'
-            name='class'
+            placeholder='Nhập tên tài khoản'
+            name='uname'
             fullWidth
             variant='outlined'
-            value={classes}
-            onChange={(e) => setClasses(e.target.value)}
-            sx={{ width: '70%' }}
-            error={!!errors.classes}
-            helperText={errors.classes}
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+            sx={{ width: '300px' }}
+            error={!!errors.userName}
+            helperText={errors.userName}
             size='small'
             onBlur={(e) => {
-              if (!e.target.value.match(/^\d{1}\/\d{1}$/)) {
+              if (!e.target.value.trim()) {
                 setErrors((prevErrors: any) => ({
                   ...prevErrors,
-                  classes: 'Lớp không hợp lệ'
+                  userName: 'Vui lòng nhập tên tài khoản'
                 }))
               } else {
                 setErrors((prevErrors: any) => ({
                   ...prevErrors,
-                  classes: ''
+                  userName: ''
                 }))
               }
             }}
@@ -214,7 +175,7 @@ const AddStudentForm = ({ open, handleClose, refreshStudents }: PropsType) => {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={['DatePicker']}>
                 <DatePicker
-                  label='Ngày sinh'
+                  maxDate={dayjs('2006-12-31')}
                   value={dateOfBirth}
                   onChange={(newValue) => setDateOfBirth(newValue)}
                   sx={{ width: '300px' }}
@@ -243,13 +204,13 @@ const AddStudentForm = ({ open, handleClose, refreshStudents }: PropsType) => {
           <dt className='text-base font-medium text-gray-800 '>Email</dt>
           <TextField
             type='text'
-            label='Email'
             name='email'
+            placeholder='Nhập email'
             fullWidth
             variant='outlined'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            sx={{ width: '70%' }}
+            sx={{ width: '300px' }}
             error={!!errors.email}
             helperText={errors.email}
             size='small'
@@ -272,13 +233,13 @@ const AddStudentForm = ({ open, handleClose, refreshStudents }: PropsType) => {
           <dt className='text-base font-medium text-gray-800 '>Mật khẩu</dt>
           <TextField
             type={showPassword ? 'text' : 'password'}
-            label='Password'
+            placeholder='Nhập mật khẩu'
             name='password'
             fullWidth
             variant='outlined'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            sx={{ width: '70%' }}
+            sx={{ width: '300px' }}
             error={!!errors.password}
             helperText={errors.password}
             size='small'
@@ -307,7 +268,7 @@ const AddStudentForm = ({ open, handleClose, refreshStudents }: PropsType) => {
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
-              ),
+              )
             }}
           />
         </div>
@@ -319,7 +280,7 @@ const AddStudentForm = ({ open, handleClose, refreshStudents }: PropsType) => {
             variant='outlined'
             value={gender}
             onChange={(e) => setGender(e.target.value as string)}
-            sx={{ width: '70%' }}
+            sx={{ width: '300px' }}
             size='small'
           >
             <MenuItem value='nam'>Nam</MenuItem>
@@ -330,15 +291,15 @@ const AddStudentForm = ({ open, handleClose, refreshStudents }: PropsType) => {
           <dt className='text-base font-medium text-gray-800 '>Địa chỉ</dt>
           <TextField
             multiline
-            label='Địa chỉ'
             name='address'
+            placeholder='Nhập địa chỉ'
             fullWidth
             variant='outlined'
             value={address}
             error={!!errors.address}
             helperText={errors.address}
             onChange={(e) => setAddress(e.target.value)}
-            sx={{ width: '70%' }}
+            sx={{ width: '300px' }}
             size='small'
             onBlur={(e) => {
               if (!e.target.value.trim()) {
@@ -368,4 +329,4 @@ const AddStudentForm = ({ open, handleClose, refreshStudents }: PropsType) => {
   )
 }
 
-export default AddStudentForm
+export default AddStaffForm

@@ -74,32 +74,34 @@ const StudentItem = ({ student }: PropsType) => {
       <td className='px-3 py-4'>{formatDateTime(student.date)}</td>
       <td className='px-3 py-4'>{student.gender ? 'Nam' : 'Nữ'}</td>
       <td className='px-3 py-4'>{student.address}</td>
-      <td className='px-3 py-4'>
-        <Button
-          aria-controls={open ? 'action-menu' : undefined}
-          aria-haspopup='true'
-          aria-expanded={open ? 'true' : undefined}
-          onClick={handleClick}
-          variant='contained'
-        >
-          Lựa chọn
-        </Button>
-        <Menu
-          id='action-menu'
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          MenuListProps={{
-            'aria-labelledby': 'action-button'
-          }}
-        >
-          {!hasHealthCheck && <MenuItem onClick={handleAddHealthRecord}>Thêm hồ sơ khám sức khỏe</MenuItem>}
-          {!hasInsuranceCheck && role && role.toUpperCase() === 'ADMIN' && (
-            <MenuItem onClick={handleAddBHYT}>Thêm BHYT</MenuItem>
-          )}
-          <MenuItem onClick={handleUseMedicine}>Sử dụng thuốc</MenuItem>
-        </Menu>
-      </td>
+      {role && role.toUpperCase() != 'ADMIN' && (
+        <td className='px-3 py-4'>
+          <Button
+            aria-controls={open ? 'action-menu' : undefined}
+            aria-haspopup='true'
+            aria-expanded={open ? 'true' : undefined}
+            onClick={handleClick}
+            variant='contained'
+          >
+            Lựa chọn
+          </Button>
+          <Menu
+            id='action-menu'
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              'aria-labelledby': 'action-button'
+            }}
+          >
+            {!hasHealthCheck && <MenuItem onClick={handleAddHealthRecord}>Thêm hồ sơ khám sức khỏe</MenuItem>}
+            {!hasInsuranceCheck && role && role.toUpperCase() === 'STAFF' && (
+              <MenuItem onClick={handleAddBHYT}>Thêm BHYT</MenuItem>
+            )}
+            <MenuItem onClick={handleUseMedicine}>Sử dụng thuốc</MenuItem>
+          </Menu>
+        </td>
+      )}
     </tr>
   )
 }

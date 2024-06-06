@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react'
 import HeaderAdmin from './HeaderAdmin'
 import { Button, TextField } from '@mui/material'
@@ -7,19 +8,69 @@ import { toast } from 'react-toastify'
 import { AddHealthInsuranceType } from '@/@types/healthInsurance'
 import { addHealthInsuranceApi } from '@/services/HealthInsuranceService/healthInsuranceService'
 import { formatDateTime } from '@/helpers/formatDateTime'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store'
+import { getStaffIdByUserIdApi } from '@/services/AuthService/authService'
 
 const AddHealthInsurance = () => {
+  const user = useSelector((state: RootState) => state.auth.user)
+  const [staffId, setStaffId] = useState(1)
   const location = useLocation()
   const { student } = location.state as { student: StudentType }
   const idStudent = student.id
   const navigate = useNavigate()
   const [insuranceNumber, setInsuranceNumber] = useState('')
   const [status] = useState(false)
+
+  const [errors, setErrors] = useState({ insuranceNumber: '' })
+
+  const validateForm = () => {
+    let valid = true
+    const errorsObj: any = {}
+
+    // Validate insurance number format
+    if (!insuranceNumber.match(/^HS\d{3}\d{10}$/)) {
+      errorsObj.insuranceNumber = 'Số bảo hiểm y tế không hợp lệ'
+      valid = false
+    }
+
+    setErrors(errorsObj)
+    return valid
+  }
+  const handleBlur = (e: { target: { name: any; value: any } }) => {
+    const { name, value } = e.target
+    let errorMessage = ''
+
+    switch (name) {
+      case 'height':
+        if (!value || isNaN(parseInt(value)) || parseInt(value) < 100 || parseInt(value) > 220) {
+          errorMessage = 'Chiều cao không hợp lệ'
+        }
+        break
+      default:
+        break
+    }
+
+    setErrors((prevErrors: any) => ({
+      ...prevErrors,
+      [name]: errorMessage
+    }))
+  }
   const handleSubmit = async () => {
+    const isValid = validateForm()
+
+    if (!isValid) {
+      return
+    }
+    if (user) {
+      const res = await getStaffIdByUserIdApi(user?.id)
+      setStaffId(res.data.id)
+    }
     const newHealthInsurance: AddHealthInsuranceType = {
       insuranceNumber: insuranceNumber,
       status: status,
-      scholastic: new Date().getFullYear().toString()
+      scholastic: new Date().getFullYear().toString(),
+      staffId: staffId
     }
     console.log('idStudent:', idStudent)
     try {
@@ -27,7 +78,7 @@ const AddHealthInsurance = () => {
       console.log('response add:', response)
       if (response && response.status === 200) {
         toast.success('Thêm bảo hiểm y tế cho học sinh thành công')
-        navigate('/admin-manage-health-insurances')
+        navigate('/health-insurances')
       } else {
         console.error(`Thêm bảo hiểm y tế cho học sinh thất bại:`, response)
       }
@@ -131,6 +182,9 @@ const AddHealthInsurance = () => {
                     size='small'
                     value={insuranceNumber}
                     onChange={(e) => setInsuranceNumber(e.target.value)}
+                    error={!!errors.insuranceNumber}
+                    helperText={errors.insuranceNumber}
+                    onBlur={handleBlur}
                   />
                 </div>
               </div>

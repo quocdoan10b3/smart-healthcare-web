@@ -9,4 +9,5 @@ export interface AddNewsType {
   content: string
   image: string
   dateCreatAt: string
+  staffId: number
 }

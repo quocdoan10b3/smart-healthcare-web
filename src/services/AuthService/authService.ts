@@ -17,3 +17,6 @@ export const getUserByIdApi = (userId: number) => {
 export const updateAvatarUserApi = (userId: number, body: { avatarUrl: string }) => {
   return http.put(`api/user/${userId}`, body, { signal: controller.signal })
 }
+export const getStaffIdByUserIdApi = (userId: number) => {
+  return http.get(`api/user/staff/${userId}`, { signal: controller.signal })
+}

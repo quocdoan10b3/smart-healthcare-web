@@ -13,6 +13,9 @@ import ButtonLogout from '../Authenticate/ButtonLogout'
 import ImageLogo from '@/assets/images/logo_web.jpg'
 import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformationOutlined'
 import ManageHistoryOutlinedIcon from '@mui/icons-material/ManageHistoryOutlined'
+import BarChartIcon from '@mui/icons-material/BarChart'
+import ViewListOutlinedIcon from '@mui/icons-material/ViewListOutlined'
+import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined'
 interface PropsType {
   title: string
   to: string
@@ -122,6 +125,13 @@ const StaffSidebar = () => {
               setSelected={setSelected}
             />
             <Item
+              title='Danh sách BHYT'
+              to='/health-insurances'
+              icon={<ViewListOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
               title='Kho thuốc của trường'
               to='view-medicines'
               icon={<MedicalInformationOutlinedIcon />}
@@ -132,6 +142,20 @@ const StaffSidebar = () => {
               title='Lịch sử dùng thuốc'
               to='history-use-medicines'
               icon={<ManageHistoryOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title='Thống kê'
+              to='staff-statistic'
+              icon={<BarChartIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title='Đánh giá và hỏi đáp'
+              to='manage-feedback'
+              icon={<FeedbackOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />

@@ -14,4 +14,5 @@ export interface UsageHistoryType {
       quantity: number
     }
   ]
+  staffId: number
 }

@@ -35,6 +35,7 @@ import { useEffect } from 'react'
 import { LocalStorageEventTarget } from './utils/http'
 import StaffLayout from './layouts/StaffLayout/StaffLayout'
 import AddNewsForm from './components/Admin/AddNewsForm'
+import AdminManageStaff from './pages/Admin/ManageStaff/AdminManageStaff'
 function App() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -82,11 +83,12 @@ function App() {
           <Route path='/admin-history-use-medicines' element={<AdminManageUsageHistory />} />
           <Route path='/admin-statistic' element={<AdminStatic />} />
           <Route path='/admin-manage-feedback' element={<AdminManageFeedBack />} />
-          <Route path='/add-health-record' element={<AddHealthRecord />} />
-          <Route path='/add-health-insurance' element={<AddHealthInsurance />} />
-          <Route path='/add-medicine' element={<AddMedicineForm />} />
-          <Route path='/admin-use-medicine' element={<AddUseMedicine />} />
+          {/* <Route path='/add-health-record' element={<AddHealthRecord />} /> */}
+          {/* <Route path='/add-health-insurance' element={<AddHealthInsurance />} /> */}
+          {/* <Route path='/add-medicine' element={<AddMedicineForm />} /> */}
+          {/* <Route path='/admin-use-medicine' element={<AddUseMedicine />} /> */}
           <Route path='/admin-add-news' element={<AddNewsForm />} />
+          <Route path='/admin-manage-staff' element={<AdminManageStaff />} />
         </Route>
         <Route path='' element={<StudentLayout />}>
           <Route path='/student' element={<Dashboard />} />
@@ -105,6 +107,12 @@ function App() {
           <Route path='/get-students' element={<AdminManageStudents />} />
           <Route path='/view-medicines' element={<AdminManageMedicines />} />
           <Route path='/history-use-medicines' element={<AdminManageUsageHistory />} />
+          <Route path='/staff-add-news' element={<AddNewsForm />} />
+          <Route path='/staff-statistic' element={<AdminStatic />} />
+          <Route path='/add-health-insurance' element={<AddHealthInsurance />} />
+          <Route path='/health-insurances' element={<AdminManageHealthInsurances />} />
+          <Route path='/staff-add-medicine' element={<AddMedicineForm />} />
+          <Route path='/manage-feedback' element={<AdminManageFeedBack />} />
         </Route>
       </Routes>
       <ToastContainer

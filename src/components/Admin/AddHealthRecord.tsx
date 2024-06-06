@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react'
 import HeaderAdmin from './HeaderAdmin'
 import { Button, InputAdornment, TextField } from '@mui/material'
@@ -8,9 +9,12 @@ import { toast } from 'react-toastify'
 import { addHealthRecordApi } from '@/services/HealthRecordService/healthRecordService'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
+import { getStaffIdByUserIdApi } from '@/services/AuthService/authService'
 
 const AddHealthRecord = () => {
   const role = useSelector((state: RootState) => state.auth.role)
+  const user = useSelector((state: RootState) => state.auth.user)
+  const [staffId, setStaffId] = useState(1)
   const location = useLocation()
   const { student } = location.state as { student: StudentType }
   const idStudent = student.id
@@ -23,7 +27,62 @@ const AddHealthRecord = () => {
   const [allergy, setAllergy] = useState('')
   const [note, setNote] = useState('')
   const currentTime = new Date()
+
+  const [errors, setErrors] = useState<any>({})
+  const validateForm = () => {
+    let valid = true
+    const errorsObj: any = {}
+
+    if (!height || isNaN(parseInt(height)) || parseInt(height) < 100 || parseInt(height) > 220) {
+      errorsObj.height = 'Chiều cao không hợp lệ'
+      valid = false
+    }
+
+    if (!weight || isNaN(parseInt(weight)) || parseInt(weight) < 30 || parseInt(weight) > 120) {
+      errorsObj.weight = 'Cân nặng không hợp lệ'
+      valid = false
+    }
+
+    if (!eye || isNaN(parseInt(eye)) || parseInt(eye) < 0 || parseInt(eye) > 10) {
+      errorsObj.eye = 'Tầm nhìn không hợp lệ'
+      valid = false
+    }
+
+    if (!hearing.trim()) {
+      errorsObj.hearing = 'Vui lòng nhập thông tin thính giác'
+      valid = false
+    }
+
+    if (!dentalHealth.trim()) {
+      errorsObj.dentalHealth = 'Vui lòng nhập thông tin về răng'
+      valid = false
+    }
+
+    if (!allergy.trim()) {
+      errorsObj.allergy = 'Vui lòng nhập thông tin về dị ứng'
+      valid = false
+    }
+
+    if (!note.trim()) {
+      errorsObj.note = 'Vui lòng nhập ghi chú'
+      valid = false
+    }
+
+    setErrors(errorsObj)
+    return valid
+  }
+
   const handleSubmit = async () => {
+    const isValid = validateForm()
+
+    if (!isValid) {
+      return
+    }
+    if (user) {
+      const res = await getStaffIdByUserIdApi(user?.id)
+      setStaffId(res.data.id)
+    }
+
     const newHealthRecord: AddHealthRecordType = {
       examDate: currentTime.toISOString(),
       height: parseInt(height),
@@ -33,7 +92,8 @@ const AddHealthRecord = () => {
       dentalHealth: dentalHealth,
       allergies: allergy,
       notes: note,
-      scholastic: new Date().getFullYear().toString()
+      scholastic: new Date().getFullYear().toString(),
+      staffId: staffId
     }
     console.log('idStudent:', idStudent)
     try {
@@ -50,6 +110,36 @@ const AddHealthRecord = () => {
       console.log(`Thêm hồ sơ khám sức khỏe thất bại:`, error)
     }
   }
+  const handleBlur = (e: { target: { name: any; value: any } }) => {
+    const { name, value } = e.target
+    let errorMessage = ''
+
+    switch (name) {
+      case 'height':
+        if (!value || isNaN(parseInt(value)) || parseInt(value) < 100 || parseInt(value) > 220) {
+          errorMessage = 'Chiều cao không hợp lệ'
+        }
+        break
+      case 'weight':
+        if (!value || isNaN(parseInt(value)) || parseInt(value) < 30 || parseInt(value) > 120) {
+          errorMessage = 'Cân nặng không hợp lệ'
+        }
+        break
+      case 'vision':
+        if (!value || isNaN(parseInt(value)) || parseInt(value) < 0 || parseInt(value) > 10) {
+          errorMessage = 'Tầm nhìn không hợp lệ'
+        }
+        break
+      default:
+        break
+    }
+
+    setErrors((prevErrors: any) => ({
+      ...prevErrors,
+      [name]: errorMessage
+    }))
+  }
+
   return (
     <div className='p-4'>
       <HeaderAdmin title='Tạo hồ sơ khám sức khỏe cho học sinh' />
@@ -89,6 +179,9 @@ const AddHealthRecord = () => {
                     size='small'
                     value={height}
                     onChange={(e) => setHeight(e.target.value)}
+                    onBlur={handleBlur}
+                    error={!!errors.height}
+                    helperText={errors.height}
                     InputProps={{
                       endAdornment: <InputAdornment position='end'>cm</InputAdornment>
                     }}
@@ -107,6 +200,9 @@ const AddHealthRecord = () => {
                     size='small'
                     value={weight}
                     onChange={(e) => setWeight(e.target.value)}
+                    onBlur={handleBlur}
+                    error={!!errors.weight}
+                    helperText={errors.weight}
                     InputProps={{
                       endAdornment: <InputAdornment position='end'>kg</InputAdornment>
                     }}
@@ -124,6 +220,9 @@ const AddHealthRecord = () => {
                     size='small'
                     value={eye}
                     onChange={(e) => setEye(e.target.value)}
+                    onBlur={handleBlur}
+                    error={!!errors.eye}
+                    helperText={errors.eye}
                     placeholder='Nhập tầm nhìn (x/10)'
                   />
                 </div>
@@ -139,6 +238,9 @@ const AddHealthRecord = () => {
                     size='small'
                     value={hearing}
                     onChange={(e) => setHearing(e.target.value)}
+                    onBlur={handleBlur}
+                    error={!!errors.hearing}
+                    helperText={errors.hearing}
                     placeholder='Ghi chú thính giác'
                   />
                 </div>
@@ -154,6 +256,9 @@ const AddHealthRecord = () => {
                     size='small'
                     value={dentalHealth}
                     onChange={(e) => setDentalHealth(e.target.value)}
+                    onBlur={handleBlur}
+                    error={!!errors.dentalHealth}
+                    helperText={errors.dentalHealth}
                     placeholder='Ghi chú răng'
                   />
                 </div>
@@ -169,6 +274,9 @@ const AddHealthRecord = () => {
                     size='small'
                     value={allergy}
                     onChange={(e) => setAllergy(e.target.value)}
+                    onBlur={handleBlur}
+                    error={!!errors.allergy}
+                    helperText={errors.allergy}
                     placeholder='Ghi chú dị ứng'
                   />
                 </div>
@@ -184,6 +292,9 @@ const AddHealthRecord = () => {
                     size='small'
                     value={note}
                     onChange={(e) => setNote(e.target.value)}
+                    onBlur={handleBlur}
+                    error={!!errors.note}
+                    helperText={errors.note}
                     placeholder='Ghi chú'
                   />
                 </div>

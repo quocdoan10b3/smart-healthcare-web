@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // AddMedicineForm.js or AddMedicineForm.tsx
 import { Button, TextField } from '@mui/material'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-import { Dayjs } from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import { useRef, useState } from 'react'
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto'
 import { ImportNewMedicineType } from '@/@types/medicine'
@@ -12,7 +13,13 @@ import { importNewMedicineApi } from '@/services/MedicineService/medicineService
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import { ImageChangeOneFile } from '@/helpers/changeFileImage'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store'
+import { getStaffIdByUserIdApi } from '@/services/AuthService/authService'
 const AddMedicineForm = () => {
+  const user = useSelector((state: RootState) => state.auth.user)
+  const role = useSelector((state: RootState) => state.auth.role)
+  const [staffId, setStaffId] = useState(1)
   const [name, setName] = useState('')
   const [quantity, setQuantity] = useState(0)
   const [effect, setEffect] = useState('')
@@ -21,6 +28,36 @@ const AddMedicineForm = () => {
   const [imageFile, setImageFile] = useState<File>()
   const fileInputRef = useRef(null)
   const navigate = useNavigate()
+  const [errors, setErrors] = useState<any>({})
+
+  const validateForm = () => {
+    let isValid = true
+    const errorsObj: any = {}
+    if (!name.trim()) {
+      errorsObj.name = 'Vui lòng nhập tên thuốc'
+      isValid = false
+    }
+
+    // Kiểm tra số lượng
+    if (quantity <= 0) {
+      errorsObj.quantity = 'Số lượng phải lớn hơn 0'
+      isValid = false
+    }
+
+    // Kiểm tra tác dụng
+    if (!effect.trim()) {
+      errorsObj.effect = 'Vui lòng nhập tác dụng của thuốc'
+      isValid = false
+    }
+
+    // Kiểm tra ngày hết hạn
+    if (!expDate) {
+      errorsObj.expDate = 'Vui lòng chọn ngày hết hạn'
+      isValid = false
+    }
+    setErrors(errorsObj)
+    return isValid
+  }
   const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuantity(Number(event.target.value))
   }
@@ -39,6 +76,15 @@ const AddMedicineForm = () => {
     }
   }
   const handleAddMedicine = async () => {
+    const isValid = validateForm()
+
+    if (!isValid) {
+      return
+    }
+    if (user) {
+      const res = await getStaffIdByUserIdApi(user?.id)
+      setStaffId(res.data.id)
+    }
     console.log(avatarUrl)
     console.log('imageFile:', imageFile)
     if (imageFile) {
@@ -50,7 +96,8 @@ const AddMedicineForm = () => {
         effect: effect,
         importDate: new Date().toISOString(),
         expDate: expDate ? expDate.format('YYYY-MM-DD') : '',
-        imageMedicine: resImage
+        imageMedicine: resImage,
+        staffId: staffId
       }
       try {
         const response = await importNewMedicineApi(importMedicine)
@@ -58,7 +105,8 @@ const AddMedicineForm = () => {
 
         if (response && response.status === 200) {
           toast.success('Nhập thuốc thành công')
-          navigate('/admin-manage-medicines')
+          if (role && role.toUpperCase() === 'ADMIN') navigate('/admin-manage-medicines')
+          else navigate('/view-medicines')
         } else {
           console.error(`Nhập thuốc thất bại:`, response)
         }
@@ -66,6 +114,46 @@ const AddMedicineForm = () => {
         console.log(`Nhập thuốc thất bại:`, error)
       }
     }
+  }
+  const getCurrentDate = () => {
+    return dayjs()
+  }
+  const handleBlur = (field: string) => {
+    const newErrors = { ...errors }
+
+    switch (field) {
+      case 'name':
+        if (!name.trim()) {
+          newErrors.name = 'Vui lòng nhập tên thuốc'
+        } else {
+          newErrors.name = ''
+        }
+        break
+      case 'quantity':
+        if (quantity <= 0) {
+          newErrors.quantity = 'Số lượng phải lớn hơn 0'
+        } else {
+          newErrors.quantity = ''
+        }
+        break
+      case 'effect':
+        if (!effect.trim()) {
+          newErrors.effect = 'Vui lòng nhập tác dụng của thuốc'
+        } else {
+          newErrors.effect = ''
+        }
+        break
+      case 'expDate':
+        if (!expDate) {
+          newErrors.expDate = 'Vui lòng chọn ngày hết hạn'
+        } else {
+          newErrors.expDate = ''
+        }
+        break
+      default:
+        break
+    }
+    setErrors(newErrors)
   }
   return (
     <div className='p-4'>
@@ -106,6 +194,9 @@ const AddMedicineForm = () => {
                   size='small'
                   onChange={(e) => setName(e.target.value)}
                   placeholder='Nhập tên thuốc'
+                  error={!!errors.name}
+                  helperText={errors.name}
+                  onBlur={() => handleBlur('name')}
                 />
               </div>
               <div className='py-1 flex justify-between items-center gap-7 px-4'>
@@ -120,6 +211,9 @@ const AddMedicineForm = () => {
                   sx={{ width: '70%' }}
                   multiline
                   placeholder='Nhập tác dụng của thuốc'
+                  error={!!errors.effect}
+                  helperText={errors.effect}
+                  onBlur={() => handleBlur('effect')}
                 />
               </div>
               <div className='py-1 flex justify-between items-center gap-7 px-4'>
@@ -134,6 +228,9 @@ const AddMedicineForm = () => {
                   value={quantity}
                   onChange={handleQuantityChange}
                   sx={{ width: '70%' }}
+                  error={!!errors.quantity}
+                  helperText={errors.quantity}
+                  onBlur={() => handleBlur('quantity')}
                 />
               </div>
               <div className='py-1 flex justify-between items-center px-4'>
@@ -146,6 +243,20 @@ const AddMedicineForm = () => {
                       slotProps={{ textField: { size: 'small' } }}
                       sx={{ width: '335px' }}
                       format='DD/MM/YYYY'
+                      minDate={getCurrentDate()}
+                      onError={(error) => {
+                        if (error) {
+                          setErrors((prevErrors: any) => ({
+                            ...prevErrors,
+                            expDate: 'Ngày không hợp lệ'
+                          }))
+                        } else {
+                          setErrors((prevErrors: any) => ({
+                            ...prevErrors,
+                            expDate: ''
+                          }))
+                        }
+                      }}
                     />
                   </DemoContainer>
                 </LocalizationProvider>

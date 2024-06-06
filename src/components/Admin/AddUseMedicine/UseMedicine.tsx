@@ -11,6 +11,9 @@ import { useState } from 'react'
 import { addUsageMedicines } from '@/services/HistoryService/usageHistoryService'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store'
+import { getStaffIdByUserIdApi } from '@/services/AuthService/authService'
 interface iProps {
   useMedicine: IMedicineUse[]
   setUseMedicine: React.Dispatch<React.SetStateAction<IMedicineUse[]>>
@@ -18,6 +21,9 @@ interface iProps {
 }
 
 const UseMedicine = ({ useMedicine, setUseMedicine, idStudent }: iProps) => {
+  const user = useSelector((state: RootState) => state.auth.user)
+  const role = useSelector((state: RootState) => state.auth.role)
+  const [staffId, setStaffId] = useState(1)
   const [reason, setReason] = useState('')
   const navigate = useNavigate()
   const handleAddQuantity = (medicine: IMedicineUse, index: number) => {
@@ -46,6 +52,10 @@ const UseMedicine = ({ useMedicine, setUseMedicine, idStudent }: iProps) => {
   }
 
   const handleCallAPI = async () => {
+    if (user) {
+      const res = await getStaffIdByUserIdApi(user?.id)
+      setStaffId(res.data.id)
+    }
     const addPrescriptionRequests = useMedicine.map((item) => ({
       medicineId: item.id,
       quantity: item.quantityShouldUse
@@ -53,12 +63,14 @@ const UseMedicine = ({ useMedicine, setUseMedicine, idStudent }: iProps) => {
     const request = {
       usageDate: new Date(),
       reason: reason,
-      addPrescriptionRequests
+      addPrescriptionRequests,
+      staffId
     }
     try {
       await addUsageMedicines(idStudent, request)
       toast.success('Tạo đơn thuốc thành công')
-      navigate('/admin-history-use-medicines')
+      if (role && role.toUpperCase() === 'ADMIN') navigate('/admin-history-use-medicines')
+      else navigate('/history-use-medicines')
     } catch (error) {
       console.log(error)
     }
@@ -117,7 +129,7 @@ const UseMedicine = ({ useMedicine, setUseMedicine, idStudent }: iProps) => {
         </Table>
       </TableContainer>
 
-      <Button onClick={handleCallAPI} variant='contained' sx={{marginTop:'15px'}}>
+      <Button onClick={handleCallAPI} variant='contained' sx={{ marginTop: '15px' }}>
         Thêm đơn thuốc
       </Button>
     </div>

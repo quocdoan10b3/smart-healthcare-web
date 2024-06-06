@@ -8,11 +8,13 @@ export interface HealthInsuranceType {
   scholastic: string
   address: string
   dateOfBirth: string
+  staffId: number
 }
 export interface AddHealthInsuranceType {
   insuranceNumber: string
   status: boolean
   scholastic: string
+  staffId: number
 }
 export interface UpdateStatusInsuranceType {
   status: boolean

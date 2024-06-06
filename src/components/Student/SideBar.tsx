@@ -145,7 +145,7 @@ const StudentSidebar = () => {
               setSelected={setSelected}
             />
             <Item
-              title='Đánh giá công tác y tế'
+              title='Đánh giá và hỏi đáp'
               to='/student-feedback'
               icon={<FeedbackOutlinedIcon />}
               selected={selected}

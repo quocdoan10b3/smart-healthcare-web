@@ -65,7 +65,7 @@ const FeedbackItem = ({ feedback }: PropsType) => {
           </p>
         </div>
         <div className='mt-2 ml-10'>
-          {!feedback.response && role?.toUpperCase() === 'ADMIN' && (
+          {!feedback.response && role && ['ADMIN', 'STAFF'].includes(role.toUpperCase()) && (
             <Box display='flex' alignItems='center'>
               <button onClick={handleReplyClick} className='text-blue-500 mb-1'>
                 Trả lời

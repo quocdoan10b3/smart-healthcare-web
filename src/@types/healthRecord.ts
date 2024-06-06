@@ -23,4 +23,5 @@ export interface AddHealthRecordType {
   allergies: string
   notes: string
   scholastic: string
+  staffId: number
 }

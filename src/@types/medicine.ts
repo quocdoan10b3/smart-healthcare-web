@@ -12,6 +12,7 @@ export interface ImportMedicineType {
   importDate: string
   expDate: string
   medicineId: number
+  staffId: number
 }
 export interface ImportNewMedicineType {
   nameMedicine: string
@@ -20,6 +21,7 @@ export interface ImportNewMedicineType {
   quantity: number
   importDate: string
   expDate: string
+  staffId: number
 }
 export interface AddMedicineType {
   name: string
