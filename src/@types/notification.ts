@@ -1,4 +1,5 @@
 export interface NotificationType {
+  id: number
   title: string
   content: string
   image: string

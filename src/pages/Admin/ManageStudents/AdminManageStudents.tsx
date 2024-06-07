@@ -91,7 +91,7 @@ const AdminManageStudents = () => {
               <th scope='col' className='px-3 py-3'>
                 Địa chỉ
               </th>
-              {role && role.toUpperCase() != 'ADMIN' && (
+              {role && ['ADMIN', 'STAFF'].includes(role.toUpperCase()) && (
                 <th scope='col' className='px-3 py-3'>
                   Lựa chọn
                 </th>
@@ -100,7 +100,7 @@ const AdminManageStudents = () => {
           </thead>
           <tbody>
             {listStudents.map((hr) => (
-              <StudentItem student={hr} />
+              <StudentItem student={hr} refreshStudents={refreshStudents} />
             ))}
           </tbody>
         </table>

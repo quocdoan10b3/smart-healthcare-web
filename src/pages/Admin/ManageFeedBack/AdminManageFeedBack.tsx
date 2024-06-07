@@ -38,33 +38,9 @@ const AdminManageFeedBack = () => {
   return (
     <div className='p-4'>
       <HeaderAdmin title='Đánh giá và hỗ trợ trực tuyến' />
-      {/* <div className='border p-4 rounded shadow'>
-        <ul className=''>
-          {listFeedbacks.map((item) => (
-            <li key={item.id} className=''>
-              <div className='border p-4 rounded shadow'>
-                <Avatar alt={item.student} src={item.avatar} className='mr-4' />
-                <p className='text-xl font-semibold'>{item.studentName}</p>
-              </div>
-              {formatDateTime(item.commentDate)}
-              <div className='mb-4 border p-4 rounded shadow'>
-                <p>{item.comments}</p>
-              </div>
-
-              {item.response && (
-                <div className='mt-4 border p-4 rounded shadow'>
-                  <p className='font-bold'>Admin Response:</p>
-                  <p>{item.response}</p>
-                  <p>{formatDateTime(item.responseDate)}</p>
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
-      </div> */}
       <div>
         {listFeedbacks.map((fb) => (
-          <FeedbackItem feedback={fb} refreshFeedbacks={refreshFeedbacks}/>
+          <FeedbackItem feedback={fb} refreshFeedbacks={refreshFeedbacks} />
         ))}
       </div>
       <div className='py-4 px-4 flex justify-end mt-5'>

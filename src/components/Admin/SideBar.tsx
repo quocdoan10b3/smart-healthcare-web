@@ -114,7 +114,7 @@ const AdminSidebar = () => {
               setSelected={setSelected}
             /> */}
             <Item
-              title='Tài khoản'
+              title='Danh sách học sinh'
               to='/admin-manage-students'
               icon={<AccountBoxIcon />}
               selected={selected}

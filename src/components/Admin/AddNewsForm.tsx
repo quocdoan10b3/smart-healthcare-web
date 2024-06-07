@@ -121,7 +121,7 @@ const AddNewsForm = () => {
               </div>
             </dl>
 
-            {role && role.toUpperCase() === 'STAFF' && (
+            {role && (
               <div className='py-3 flex justify-center items-center gap-5 mt-5'>
                 <Button
                   variant='contained'

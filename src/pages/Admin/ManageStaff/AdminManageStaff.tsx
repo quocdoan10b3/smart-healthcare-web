@@ -85,11 +85,14 @@ const AdminManageStaff = () => {
               <th scope='col' className='px-6 py-3'>
                 Địa chỉ
               </th>
+              <th scope='col' className='px-3 py-3'>
+                Lựa chọn
+              </th>
             </tr>
           </thead>
           <tbody>
             {listStaff.map((hr) => (
-              <StaffItem staff={hr} />
+              <StaffItem staff={hr} refreshStaff={refreshStaff} />
             ))}
           </tbody>
         </table>

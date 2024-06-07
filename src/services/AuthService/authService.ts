@@ -20,3 +20,6 @@ export const updateAvatarUserApi = (userId: number, body: { avatarUrl: string })
 export const getStaffIdByUserIdApi = (userId: number) => {
   return http.get(`api/user/staff/${userId}`, { signal: controller.signal })
 }
+export const deleteUserApi = (userId: number) => {
+  return http.delete(`api/user/${userId}`)
+}

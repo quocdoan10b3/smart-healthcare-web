@@ -21,3 +21,9 @@ export const getListNewsApi = (page: number, search: string) => {
 export const addNewsApi = (body: AddNewsType) => {
   return http.post(`api/news`, body, { signal: controller.signal })
 }
+export const deleteFeedBackApi = (feedBackId: number) => {
+  return http.delete(`api/feed-back/${feedBackId}`)
+}
+export const deleteNewsApi = (newsId: number) => {
+  return http.delete(`api/news/${newsId}`)
+}

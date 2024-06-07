@@ -1,11 +1,24 @@
 import { NotificationType } from '@/@types/notification'
 import { formatDateTime } from '@/helpers/formatDateTime'
-import { getListNewsApi } from '@/services/FeedbackService/feedbackService'
+import { deleteNewsApi, getListNewsApi } from '@/services/FeedbackService/feedbackService'
 import { RootState } from '@/store'
-import { Box, Button, Pagination, TextField } from '@mui/material'
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+  Pagination,
+  TextField
+} from '@mui/material'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined'
+import { toast } from 'react-toastify'
 
 const Dashboard = () => {
   const navigate = useNavigate()
@@ -42,6 +55,31 @@ const Dashboard = () => {
     if (role && role?.toUpperCase() === 'ADMIN') navigate('/admin-add-news')
     else navigate('/staff-add-news')
   }
+  const [open, setOpen] = useState(false)
+  const [newsIdToDelete, setNewsIdToDelete] = useState<number | null>(null)
+
+  const handleClickOpen = (id: number) => {
+    setNewsIdToDelete(id)
+    setOpen(true)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+  }
+  const handleDelete = async () => {
+    console.log('newsIdToDelete:', listNews)
+    console.log('newsIdToDelete:', newsIdToDelete)
+    if (newsIdToDelete !== null) {
+      try {
+        await deleteNewsApi(newsIdToDelete)
+        toast.success('Tin tức đã được xóa thành công')
+        getListNews(currentPage, search)
+        handleClose()
+      } catch (error) {
+        console.error('Lỗi khi xóa tin tức:', error)
+      }
+    }
+  }
   return (
     <div className='p-4'>
       <Box mb='20px'>
@@ -51,7 +89,7 @@ const Dashboard = () => {
         <div className='flex justify-between items-center'>
           <h2 className='text-cyan-600 text-lg'>Tin tức</h2>
           <div className='items-center'>
-            {role && ['ADMIN', 'STAFF'].includes(role.toUpperCase()) && (
+            {role && ['STAFF'].includes(role.toUpperCase()) && (
               <Button
                 variant='contained'
                 onClick={handleAddNews}
@@ -85,7 +123,14 @@ const Dashboard = () => {
                 </div>
                 <div className='w-3/4 flex flex-col justify-between min-h-full'>
                   <div>
-                    <h2 className='font-medium uppercase'>{news.title}</h2>
+                    <div className='flex justify-between items-center'>
+                      <h2 className='font-medium uppercase'>{news.title}</h2>
+                      {role && ['ADMIN'].includes(role.toUpperCase()) && (
+                        <IconButton onClick={() => handleClickOpen(news.id)} color='error'>
+                          <DeleteForeverOutlinedIcon />
+                        </IconButton>
+                      )}
+                    </div>
                     <p className='mx-auto mt-1 font-light'>{news.content}</p>
                   </div>
                   <p className='mt-auto font-light text-right mr-5 text-sm'>
@@ -105,6 +150,20 @@ const Dashboard = () => {
           />
         </div>
       </div>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Xác nhận cập nhật</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Bạn có chắc chắn khi xóa câu hỏi đánh giá này?</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color='primary'>
+            Hủy
+          </Button>
+          <Button onClick={handleDelete} color='primary' autoFocus>
+            Xác nhận
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   )
 }
