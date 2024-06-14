@@ -41,3 +41,6 @@ export const getInsuranceStudentByUserIdApi = (id: number) => {
     signal: controller.signal
   })
 }
+export const getAllScholasticsHI = () => {
+  return http.get(`api/health-insurance/list-scholastic`, { signal: controller.signal })
+}

@@ -89,7 +89,7 @@ const Dashboard = () => {
         <div className='flex justify-between items-center'>
           <h2 className='text-cyan-600 text-lg'>Tin tức</h2>
           <div className='items-center'>
-            {role && ['STAFF'].includes(role.toUpperCase()) && (
+            {role && ['ADMIN'].includes(role.toUpperCase()) && (
               <Button
                 variant='contained'
                 onClick={handleAddNews}

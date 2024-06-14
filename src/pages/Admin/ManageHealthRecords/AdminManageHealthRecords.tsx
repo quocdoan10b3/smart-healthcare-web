@@ -1,6 +1,6 @@
 import { HealthRecordType } from '@/@types/healthRecord'
 import HeaderAdmin from '@/components/Admin/HeaderAdmin'
-import { getAllHealthRecordsApi } from '@/services/HealthRecordService/healthRecordService'
+import { getAllHealthRecordsApi, getAllScholasticsHR } from '@/services/HealthRecordService/healthRecordService'
 import {
   Button,
   Dialog,
@@ -32,6 +32,7 @@ const AdminManageHealthRecords = () => {
   const [totalPages, setTotalPages] = useState<number>(1)
   const [selectedRecord, setSelectedRecord] = useState<HealthRecordType | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
+  const [listScholastic, setListScholastic] = useState<string[]>([])
   useEffect(() => {
     getListHealthRecords(currentPage, scholastic, search)
   }, [currentPage, scholastic, search])
@@ -41,6 +42,19 @@ const AdminManageHealthRecords = () => {
       if (response && response.status === 200) {
         setTotalPages(response.data.totalPages)
         setListHealthRecords(response.data.items)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  useEffect(() => {
+    getListScholastic()
+  }, [])
+  const getListScholastic = async () => {
+    try {
+      const response = await getAllScholasticsHR()
+      if (response && response.status === 200) {
+        setListScholastic(response.data)
       }
     } catch (err) {
       console.log(err)
@@ -71,12 +85,18 @@ const AdminManageHealthRecords = () => {
             label='Năm học'
             onChange={handleChangeScholastic}
           >
-            <MenuItem value='None'>Tất cả</MenuItem>
+            {/* <MenuItem value='None'>Tất cả</MenuItem>
             <MenuItem value='N2024_2025'>2024-2025</MenuItem>
             <MenuItem value='N2023_2024'>2023-2024</MenuItem>
             <MenuItem value='N2022_2023'>2022-2023</MenuItem>
             <MenuItem value='N2021_2022'>2021-2022</MenuItem>
-            <MenuItem value='N2020_2021'>2020-2021</MenuItem>
+            <MenuItem value='N2020_2021'>2020-2021</MenuItem> */}
+            <MenuItem value='None'>Tất cả</MenuItem>
+            {listScholastic.map((scholastic) => (
+              <MenuItem key={scholastic} value={`N${scholastic.replace('-', '_')}`}>
+                {scholastic}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
         <TextField

@@ -12,7 +12,7 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox'
 import ButtonLogout from '../Authenticate/ButtonLogout'
 import ImageLogo from '@/assets/images/logo_web.jpg'
 import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined'
-import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformationOutlined'
+// import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformationOutlined'
 import ManageHistoryOutlinedIcon from '@mui/icons-material/ManageHistoryOutlined'
 import ViewListOutlinedIcon from '@mui/icons-material/ViewListOutlined'
 interface PropsType {
@@ -90,14 +90,16 @@ const StudentSidebar = () => {
                 <p className='py-2 px-4 text-base font-bold text-gray-100 text-center'>QUẢN LÝ Y TẾ HỌC ĐƯỜNG</p>
               </Box>
               <Box display='flex' justifyContent='center' alignItems='center'>
-                <img
-                  alt='profile-user'
-                  width={100}
-                  height={100}
-                  //   src={user?.avatarUrl || ImageAdminDefault}
-                  src={ImageLogo}
-                  style={{ cursor: 'pointer', borderRadius: '50%' }}
-                />
+                <Link to='/student' className=''>
+                  <img
+                    alt='profile-user'
+                    width={100}
+                    height={100}
+                    //   src={user?.avatarUrl || ImageAdminDefault}
+                    src={ImageLogo}
+                    style={{ cursor: 'pointer', borderRadius: '50%' }}
+                  />
+                </Link>
               </Box>
             </Box>
           )}
@@ -130,13 +132,13 @@ const StudentSidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
+            {/* <Item
               title='Kho thuốc của trường'
               to='student-view-medicines'
               icon={<MedicalInformationOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
             <Item
               title='Lịch sử dùng thuốc'
               to='student-medicines-usage-history'

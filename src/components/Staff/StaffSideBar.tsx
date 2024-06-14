@@ -13,9 +13,10 @@ import ButtonLogout from '../Authenticate/ButtonLogout'
 import ImageLogo from '@/assets/images/logo_web.jpg'
 import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformationOutlined'
 import ManageHistoryOutlinedIcon from '@mui/icons-material/ManageHistoryOutlined'
-import BarChartIcon from '@mui/icons-material/BarChart'
+// import BarChartIcon from '@mui/icons-material/BarChart'
 import ViewListOutlinedIcon from '@mui/icons-material/ViewListOutlined'
-import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined'
+// import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined'
+import RecentActorsOutlinedIcon from '@mui/icons-material/RecentActorsOutlined';
 interface PropsType {
   title: string
   to: string
@@ -91,14 +92,16 @@ const StaffSidebar = () => {
                 <p className='py-2 px-4 text-base font-bold text-gray-100 text-center'>QUẢN LÝ Y TẾ HỌC ĐƯỜNG</p>
               </Box>
               <Box display='flex' justifyContent='center' alignItems='center'>
-                <img
-                  alt='profile-user'
-                  width={100}
-                  height={100}
-                  //   src={user?.avatarUrl || ImageAdminDefault}
-                  src={ImageLogo}
-                  style={{ cursor: 'pointer', borderRadius: '50%' }}
-                />
+                <Link to='/staff'>
+                  <img
+                    alt='profile-user'
+                    width={100}
+                    height={100}
+                    //   src={user?.avatarUrl || ImageAdminDefault}
+                    src={ImageLogo}
+                    style={{ cursor: 'pointer', borderRadius: '50%' }}
+                  />
+                </Link>
               </Box>
             </Box>
           )}
@@ -111,9 +114,16 @@ const StaffSidebar = () => {
               setSelected={setSelected}
             /> */}
             <Item
+              title='Thông tin cá nhân'
+              to='staff-info-personal'
+              icon={<AccountBoxIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
               title='Danh sách học sinh'
               to='get-students'
-              icon={<AccountBoxIcon />}
+              icon={<RecentActorsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
@@ -145,20 +155,20 @@ const StaffSidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
+            {/* <Item
               title='Thống kê'
               to='staff-statistic'
               icon={<BarChartIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
-            <Item
+            /> */}
+            {/* <Item
               title='Đánh giá và hỏi đáp'
               to='manage-feedback'
               icon={<FeedbackOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
           </Box>
         </Menu>
       </ProSidebar>

@@ -17,7 +17,8 @@ import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined'
 import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformationOutlined'
 import ManageHistoryOutlinedIcon from '@mui/icons-material/ManageHistoryOutlined'
 import ViewListOutlinedIcon from '@mui/icons-material/ViewListOutlined'
-import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined';
+import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined'
+import ManageSearchOutlinedIcon from '@mui/icons-material/ManageSearchOutlined'
 interface PropsType {
   title: string
   to: string
@@ -34,7 +35,6 @@ const Item = ({ title, to, icon, selected, setSelected }: PropsType) => {
     </MenuItem>
   )
 }
-
 const AdminSidebar = () => {
   const user = useSelector((state: RootState) => state.auth.user)
   const [isCollapsed, setIsCollapsed] = useState(false)
@@ -70,12 +70,11 @@ const AdminSidebar = () => {
     >
       <ProSidebar collapsed={isCollapsed}>
         <Menu iconShape='square'>
-          {/* Logo and menu icon */}
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
             style={{
-              margin: '10px 0 20px 0'
+              margin: '0px 0 5px 0'
             }}
           >
             {!isCollapsed && (
@@ -88,19 +87,21 @@ const AdminSidebar = () => {
             )}
           </MenuItem>
           {!isCollapsed && (
-            <Box mb='25px'>
+            <Box mb='10px'>
               <Box>
                 <p className='py-2 px-4 text-base font-bold text-gray-100 text-center'>QUẢN LÝ Y TẾ HỌC ĐƯỜNG</p>
               </Box>
               <Box display='flex' justifyContent='center' alignItems='center'>
-                <img
-                  alt='profile-user'
-                  width={100}
-                  height={100}
-                  //   src={user?.avatarUrl || ImageAdminDefault}
-                  src={ImageLogo}
-                  style={{ cursor: 'pointer', borderRadius: '50%' }}
-                />
+                <Link to='/admin' className=''>
+                  <img
+                    alt='profile-user'
+                    width={100}
+                    height={100}
+                    //   src={user?.avatarUrl || ImageAdminDefault}
+                    src={ImageLogo}
+                    style={{ cursor: 'pointer', borderRadius: '50%' }}
+                  />
+                </Link>
               </Box>
             </Box>
           )}
@@ -138,6 +139,13 @@ const AdminSidebar = () => {
               title='Kho thuốc của trường'
               to='admin-manage-medicines'
               icon={<MedicalInformationOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title='Lịch sử nhập thuốc'
+              to='admin-history-import-medicines'
+              icon={<ManageSearchOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />

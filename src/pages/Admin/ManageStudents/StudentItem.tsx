@@ -89,6 +89,7 @@ const StudentItem = ({ student, refreshStudents }: PropsType) => {
     toast.success('Học sinh đã được xóa thành công')
     refreshStudents()
     handleClose()
+    handleCloseDialog()
   }
   return (
     <>

@@ -46,7 +46,8 @@ const AddNewsForm = () => {
         content: content,
         dateCreatAt: new Date().toISOString(),
         image: resImage,
-        staffId: Number(staffId)
+        staffId: staffId,
+        userId: user.id
       }
       try {
         const response = await addNewsApi(addNews)

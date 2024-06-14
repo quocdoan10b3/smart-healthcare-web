@@ -54,10 +54,10 @@ const AdminManageMedicines = () => {
             Thêm thuốc khác
           </Button>
         )} */}
-        {role && role.toUpperCase() === 'STAFF' && (
+        {role && role.toUpperCase() === 'ADMIN' && (
           <Button
             variant='contained'
-            onClick={() => navigate('/staff-add-medicine')}
+            onClick={() => navigate('/add-medicine')}
             sx={{ width: 200, background: '#068124', my: 2 }}
           >
             Thêm thuốc khác

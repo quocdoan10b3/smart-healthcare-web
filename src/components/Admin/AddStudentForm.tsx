@@ -18,7 +18,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
-import { Dayjs } from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
 interface PropsType {
@@ -54,7 +54,7 @@ const AddStudentForm = ({ open, handleClose, refreshStudents }: PropsType) => {
       valid = false
     }
 
-    if (!classes.match(/^\d{1}\/\d{1}\/\d{1}$/)) {
+    if (!classes.match(/^\d{1}\/\d{1}$/)) {
       errorsObj.classes = 'Lớp không hợp lệ'
       valid = false
     }
@@ -214,6 +214,7 @@ const AddStudentForm = ({ open, handleClose, refreshStudents }: PropsType) => {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={['DatePicker']}>
                 <DatePicker
+                  maxDate={dayjs('2013-12-31')}
                   label='Ngày sinh'
                   value={dateOfBirth}
                   onChange={(newValue) => setDateOfBirth(newValue)}
@@ -307,7 +308,7 @@ const AddStudentForm = ({ open, handleClose, refreshStudents }: PropsType) => {
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
-              ),
+              )
             }}
           />
         </div>

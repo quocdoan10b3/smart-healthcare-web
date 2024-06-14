@@ -16,3 +16,8 @@ export interface AddStaffType {
   dateOfBirth: string
   address: string
 }
+export interface UpdateStaffType {
+  address: string
+  dateOfBirth: string
+  gender: boolean
+}

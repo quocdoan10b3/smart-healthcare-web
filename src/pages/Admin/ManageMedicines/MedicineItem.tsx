@@ -133,7 +133,7 @@ const MedicineItem = ({ medicine, refreshMedicines }: PropsType) => {
               <p className='text-red-800  font-extralight'>{medicine.quantity} </p>
             </div>
           )}
-          {role && ['STAFF'].includes(role.toUpperCase()) ? (
+          {role && ['ADMIN'].includes(role.toUpperCase()) ? (
             <div className='flex justify-center pt-2'>
               <Button variant='contained' size='small' onClick={handleClickOpen}>
                 Nhập thuốc

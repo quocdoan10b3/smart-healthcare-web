@@ -22,3 +22,9 @@ export const getHealthRecordStudentByUserIdApi = (id: number, scholastic: string
     signal: controller.signal
   })
 }
+export const getAllScholasticsHR = () => {
+  return http.get(`api/health-record/list-scholastic`, { signal: controller.signal })
+}
+export const getAllScholasticsHRStudent = (userId: number) => {
+  return http.get(`api/health-record/list-scholastic/${userId}`, { signal: controller.signal })
+}

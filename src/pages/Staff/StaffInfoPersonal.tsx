@@ -1,7 +1,5 @@
-import { UpdateStudentType } from '@/@types/student'
 import { ImageChangeOneFile } from '@/helpers/changeFileImage'
 import { updateAvatarUserApi } from '@/services/AuthService/authService'
-import { getStudentByIdApi, updateStudentById } from '@/services/StudentService/studentService'
 import { RootState } from '@/store'
 import { Button, FormControl, FormControlLabel, Radio, RadioGroup, TextField } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
@@ -10,27 +8,26 @@ import { toast } from 'react-toastify'
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto'
 import { saveInfoUserUpdate } from '@/redux-toolkit/auth.slice'
 import { InfoAccountPut } from '@/@types/user'
-import dayjs, { Dayjs } from 'dayjs'
+import { getStaffByUserIdApi, updateStaffByIdApi } from '@/services/StaffService/staffService'
+import { UpdateStaffType } from '@/@types/staff'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import dayjs, { Dayjs } from 'dayjs'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
-const StudentInfoPersonal = () => {
+const StaffInfoPersonal = () => {
   const id = useSelector((state: RootState) => state.auth.user?.id)
   const dispatch = useDispatch()
   const [fullName, setFullName] = useState('')
-  const [studentCode, setStudentCode] = useState('')
   const [email, setEmail] = useState('')
-  const [classes, setClasses] = useState('')
   const [dateOfBirth, setDateOfBirth] = useState<Dayjs | null>(null)
   const [gender, setGender] = useState('Nam')
   const [address, setAddress] = useState('')
   const [avatarUrl, setAvatarUrl] = useState('')
-  // const [avatarString, setAvatarString] = useState('')
   const [isEditing, setIsEditing] = useState(false)
   const fileInputRef = useRef(null)
-  const [studentId, setStudentId] = useState()
+  const [staffId, setStaffId] = useState()
   const handleAvatarChange = () => {
     if (fileInputRef.current) {
       const fileInput = fileInputRef.current as HTMLInputElement
@@ -45,9 +42,6 @@ const StudentInfoPersonal = () => {
       if (id) {
         try {
           const resImage = await ImageChangeOneFile(selectedFile)
-          // setAvatarString(resImage)
-          // console.log(avatarString)
-          // console.log('avatarString:', avatarString)
           const infoAccount: InfoAccountPut = {
             avatarUrl: resImage,
             email: email
@@ -63,20 +57,20 @@ const StudentInfoPersonal = () => {
   }
 
   useEffect(() => {
-    const getStudentById = async (id: number) => {
+    const getStaffById = async (id: number) => {
       try {
-        const response = await getStudentByIdApi(id)
+        const response = await getStaffByUserIdApi(id)
         if (response && response.status === 200) {
           console.log(response.data)
-          setFullName(response.data.studentName)
-          setStudentCode(response.data.studentCode)
+          setFullName(response.data.fullName)
           setAddress(response.data.address)
           setEmail(response.data.email)
-          setClasses(response.data.class)
           setAvatarUrl(response.data.avatarUrl)
           setDateOfBirth(dayjs(response.data.date))
+          console.log('date:', dateOfBirth)
+          
           // eslint-disable-next-line react-hooks/exhaustive-deps
-          setStudentId(response.data.id)
+          setStaffId(response.data.id)
           if (response.data.gender == true) setGender('Nam')
         }
       } catch (error) {
@@ -84,7 +78,7 @@ const StudentInfoPersonal = () => {
       }
     }
     if (id) {
-      getStudentById(Number(id))
+      getStaffById(Number(id))
     }
   }, [id])
   let gt = true
@@ -92,25 +86,23 @@ const StudentInfoPersonal = () => {
   if (gender == 'Nữ') gt = false
   const handleSaveInfoPersonal = async () => {
     setIsEditing((prev) => !prev)
-    const infoStudentUpdate: UpdateStudentType = {
-      class: classes,
+    const infoStaffUpdate: UpdateStaffType = {
       address: address,
       dateOfBirth: dateOfBirth ? dateOfBirth.format('YYYY-MM-DD') : '',
       gender: gt
     }
-    console.log('studentId:', studentId)
     try {
-      if (studentId !== undefined) {
-        const response = await updateStudentById(studentId, infoStudentUpdate)
+      if (staffId !== undefined) {
+        const response = await updateStaffByIdApi(staffId, infoStaffUpdate)
         console.log(response)
         if (response && response.status === 200) {
           toast.success('Cập nhật thông tin cá nhân thành công')
         } else {
-          console.error(`Failed to update info student:`, response)
+          console.error(`Failed to update info staff:`, response)
         }
       }
     } catch (error) {
-      console.log(`Error updating info student:`, error)
+      console.log(`Error updating info staff:`, error)
     }
   }
   return (
@@ -135,36 +127,6 @@ const StudentInfoPersonal = () => {
             <p className='text-lg'>{fullName}</p>
           </div>
           <dl className='sm:divide-y sm:divide-gray-200'>
-            {/* <div className='py-3 flex justify-between items-center gap-5'>
-              <dt className='text-base font-medium text-gray-500 px-4 '>Họ tên</dt>
-              <div className='flex gap-4 justify-between mr-4'>
-                <TextField
-                  name='fullName'
-                  id='fullName'
-                  type='text'
-                  sx={{ width: '340px' }}
-                  size='small'
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  disabled={true}
-                />
-              </div>
-            </div> */}
-            <div className='py-3 flex justify-between items-center gap-5'>
-              <dt className='text-base font-medium text-gray-500 px-4 '>Mã học sinh</dt>
-              <div className='flex gap-4 justify-between mr-4'>
-                <TextField
-                  name='studentCode'
-                  id='studentCode'
-                  type='text'
-                  sx={{ width: '340px' }}
-                  size='small'
-                  value={studentCode}
-                  onChange={(e) => setStudentCode(e.target.value)}
-                  disabled={true}
-                />
-              </div>
-            </div>
             <div className='py-3 flex justify-between items-center gap-5'>
               <dt className='text-base font-medium text-gray-500 px-4 '>Email</dt>
               <div className='flex gap-4 justify-between mr-4'>
@@ -181,27 +143,12 @@ const StudentInfoPersonal = () => {
               </div>
             </div>
             <div className='py-3 flex justify-between items-center gap-5'>
-              <dt className='text-base font-medium text-gray-500 px-4 '>Lớp</dt>
-              <div className='flex gap-4 justify-between mr-4'>
-                <TextField
-                  name='classes'
-                  id='classes'
-                  type='text'
-                  sx={{ width: '340px' }}
-                  size='small'
-                  value={classes}
-                  onChange={(e) => setClasses(e.target.value)}
-                  disabled={!isEditing}
-                />
-              </div>
-            </div>
-            <div className='py-3 flex justify-between items-center gap-5'>
               <dt className='text-base font-medium text-gray-500 px-4 '>Ngày sinh</dt>
               <div className='flex gap-4 justify-between mr-4'>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={['DatePicker']}>
                     <DatePicker
-                      maxDate={dayjs('2013-12-31')}
+                      maxDate={dayjs('2006-12-31')}
                       label='Ngày sinh'
                       value={dateOfBirth}
                       onChange={(newValue) => setDateOfBirth(newValue)}
@@ -268,4 +215,4 @@ const StudentInfoPersonal = () => {
   )
 }
 
-export default StudentInfoPersonal
+export default StaffInfoPersonal

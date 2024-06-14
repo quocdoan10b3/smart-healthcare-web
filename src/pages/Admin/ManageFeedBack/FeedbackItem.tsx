@@ -44,8 +44,9 @@ const FeedbackItem = ({ feedback, refreshFeedbacks }: PropsType) => {
     try {
       const res = await addResponseApi({ response }, feedback.id)
       if (res && res.status === 200) {
-        toast.success('Thêm học sinh thành công')
+        toast.success('Thêm phản hồi thành công')
         console.log('Phản hồi đã được gửi:', response)
+        refreshFeedbacks()
         setResponse('')
         setIsReplying(false)
       }

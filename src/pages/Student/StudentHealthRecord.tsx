@@ -1,7 +1,10 @@
 import { HealthRecordType } from '@/@types/healthRecord'
 import HeaderAdmin from '@/components/Admin/HeaderAdmin'
 import { formatDateTime } from '@/helpers/formatDateTime'
-import { getHealthRecordStudentByUserIdApi } from '@/services/HealthRecordService/healthRecordService'
+import {
+  getAllScholasticsHRStudent,
+  getHealthRecordStudentByUserIdApi
+} from '@/services/HealthRecordService/healthRecordService'
 import { RootState } from '@/store'
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import { useEffect, useState } from 'react'
@@ -12,6 +15,7 @@ const StudentHealthRecord = () => {
   const user = useSelector((state: RootState) => state.auth.user)
   const [scholastic, setScholastic] = useState<string>('N2024_2025')
   const [listHealthRecords, setListHealthRecords] = useState<HealthRecordType[]>([])
+  const [listScholastic, setListScholastic] = useState<string[]>([])
 
   const handleChangeScholastic = (event: SelectChangeEvent) => {
     setScholastic(event.target.value as string)
@@ -31,6 +35,19 @@ const StudentHealthRecord = () => {
       getHealthRecordStudentById(Number(user?.id), scholastic)
     }
   }, [user?.id, scholastic])
+  useEffect(() => {
+    if (user?.id) getListScholastic(Number(user?.id))
+  }, [user?.id])
+  const getListScholastic = async (userId: number) => {
+    try {
+      const response = await getAllScholasticsHRStudent(userId)
+      if (response && response.status === 200) {
+        setListScholastic(response.data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
   return (
     <div className='p-4'>
       <HeaderAdmin title='Danh sách hồ sơ khám sức khỏe cá nhân' />
@@ -43,12 +60,18 @@ const StudentHealthRecord = () => {
           label='Năm học'
           onChange={handleChangeScholastic}
         >
-          <MenuItem value='None'>Tất cả</MenuItem>
+          {/* <MenuItem value='None'>Tất cả</MenuItem>
           <MenuItem value='N2024_2025'>2024-2025</MenuItem>
           <MenuItem value='N2023_2024'>2023-2024</MenuItem>
           <MenuItem value='N2022_2023'>2022-2023</MenuItem>
           <MenuItem value='N2021_2022'>2021-2022</MenuItem>
-          <MenuItem value='N2020_2021'>2020-2021</MenuItem>
+          <MenuItem value='N2020_2021'>2020-2021</MenuItem> */}
+          <MenuItem value='None'>Tất cả</MenuItem>
+          {listScholastic.map((scholastic) => (
+            <MenuItem key={scholastic} value={`N${scholastic.replace('-', '_')}`}>
+              {scholastic}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
       {listHealthRecords.length > 0 ? (
@@ -143,7 +166,8 @@ const StudentHealthRecord = () => {
               <div className='grid grid-cols-1 md:grid-cols-1 gap-12 items-center'>
                 <div className='py-8'>
                   <h1 className='font-bold text-cyan-700 mb-8 text-2xl text-center'>
-                    Bạn chưa tham gia khám sức khỏe của trường<SentimentVeryDissatisfiedIcon />
+                    Bạn chưa tham gia khám sức khỏe của trường
+                    <SentimentVeryDissatisfiedIcon />
                   </h1>
                   <p className='text-center text-cyan-700'>Hãy đi khám sức khỏe cá nhân!</p>
                 </div>

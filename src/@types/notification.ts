@@ -11,4 +11,5 @@ export interface AddNewsType {
   image: string
   dateCreatAt: string
   staffId: number
+  userId: number
 }

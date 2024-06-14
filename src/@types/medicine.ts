@@ -28,3 +28,10 @@ export interface AddMedicineType {
   effect: string
   imageMedicine: string
 }
+export interface ImportHistoryType {
+  id: number
+  medicineName: string
+  quantity: number
+  importDate: string
+  expDate: string
+}

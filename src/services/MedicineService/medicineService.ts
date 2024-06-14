@@ -15,3 +15,9 @@ export const importMedicineApi = (body: ImportMedicineType) => {
 export const importNewMedicineApi = (body: ImportNewMedicineType) => {
   return http.post(`api/medicine/import-new-medicine`, body, { signal: controller.signal })
 }
+export const getAllImportMedicineApi = (page: number, search: string) => {
+  return http.get(
+    `api/medicine/import-medicine?Search=${search}&SortBy=Id&PageNumber=${page}&PageSize=8&IsDescending=true&SortBy=ImportDate`,
+    { signal: controller.signal }
+  )
+}

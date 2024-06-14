@@ -1,5 +1,8 @@
 import { HealthInsuranceType } from '@/@types/healthInsurance'
-import { getAllHealthInsurancesApi } from '@/services/HealthInsuranceService/healthInsuranceService'
+import {
+  getAllHealthInsurancesApi,
+  getAllScholasticsHI
+} from '@/services/HealthInsuranceService/healthInsuranceService'
 import { FormControl, InputLabel, MenuItem, Pagination, TextField } from '@mui/material'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import { ChangeEvent, useEffect, useState } from 'react'
@@ -25,6 +28,7 @@ const AdminManageHealthInsurances = () => {
   const [listHealthInsurances, setListHealthInsurances] = useState<HealthInsuranceType[]>([])
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [totalPages, setTotalPages] = useState<number>(1)
+  const [listScholastic, setListScholastic] = useState<string[]>([])
   useEffect(() => {
     getListHealthInsurances(currentPage, status, scholastic, search)
   }, [currentPage, status, scholastic, search])
@@ -34,6 +38,19 @@ const AdminManageHealthInsurances = () => {
       if (response && response.status === 200) {
         setTotalPages(response.data.totalPages)
         setListHealthInsurances(response.data.items)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  useEffect(() => {
+    getListScholastic()
+  }, [])
+  const getListScholastic = async () => {
+    try {
+      const response = await getAllScholasticsHI()
+      if (response && response.status === 200) {
+        setListScholastic(response.data)
       }
     } catch (err) {
       console.log(err)
@@ -59,12 +76,17 @@ const AdminManageHealthInsurances = () => {
             label='Năm học'
             onChange={handleChangeScholastic}
           >
-            <MenuItem value='None'>Tất cả</MenuItem>
-            <MenuItem value='N2024_2025'>2024-2025</MenuItem>
+            {/* <MenuItem value='N2024_2025'>2024-2025</MenuItem>
             <MenuItem value='N2023_2024'>2023-2024</MenuItem>
             <MenuItem value='N2022_2023'>2022-2023</MenuItem>
             <MenuItem value='N2021_2022'>2021-2022</MenuItem>
-            <MenuItem value='N2020_2021'>2020-2021</MenuItem>
+            <MenuItem value='N2020_2021'>2020-2021</MenuItem> */}
+            <MenuItem value='None'>Tất cả</MenuItem>
+            {listScholastic.map((scholastic) => (
+              <MenuItem key={scholastic} value={`N${scholastic.replace('-', '_')}`}>
+                {scholastic}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
         <FormControl size='small' sx={{ width: 200, my: 2, background: 'white', ml: 2 }}>
