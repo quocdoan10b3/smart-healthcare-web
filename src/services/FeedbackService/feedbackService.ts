@@ -14,7 +14,7 @@ export const addCommentsStudentApi = (body: AddCommentsType, userId: number) => 
   return http.post(`api/feed-back/student/${userId}`, body, { signal: controller.signal })
 }
 export const getListNewsApi = (page: number, search: string) => {
-  return http.get(`api/news?Search=${search}&SortBy=Id&PageNumber=${page}&PageSize=4&IsDescending=true`, {
+  return http.get(`api/news?Search=${search}&SortBy=Id&PageNumber=${page}&PageSize=3&IsDescending=true`, {
     signal: controller.signal
   })
 }
