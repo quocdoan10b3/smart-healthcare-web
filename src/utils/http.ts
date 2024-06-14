@@ -10,7 +10,8 @@ class Http {
   private refreshTokenRequest: Promise<string> | null = null
   constructor() {
     this.instance = axios.create({
-      baseURL: 'http://localhost:8080/',
+      // baseURL: 'http://localhost:8080/',
+      baseURL: import.meta.env.VITE_BACKEND_API_URL,
       timeout: 10000
     })
 
