@@ -17,7 +17,7 @@ const StudentViewMedicines = () => {
   }, [currentPage, search])
   const getListMedicines = async (currentPage: number, search: string) => {
     try {
-      const response = await getMedicinesApi(currentPage, search)
+      const response = await getMedicinesApi(currentPage, search, 10)
       if (response && response.status === 200) {
         setTotalPages(response.data.totalPages)
         setListMedicines(response.data.items)

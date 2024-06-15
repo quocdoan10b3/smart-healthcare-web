@@ -1,8 +1,8 @@
 import { AddMedicineType, ImportMedicineType, ImportNewMedicineType } from '@/@types/medicine'
 import http from '@/utils/http'
 const controller = new AbortController()
-export const getMedicinesApi = (page: number, search: string) => {
-  return http.get(`api/medicine?Search=${search}&SortBy=Id&PageNumber=${page}&PageSize=10&IsDescending=true`, {
+export const getMedicinesApi = (page: number, search: string, pageSize: number) => {
+  return http.get(`api/medicine?Search=${search}&SortBy=Id&PageNumber=${page}&PageSize=${pageSize}&IsDescending=true`, {
     signal: controller.signal
   })
 }

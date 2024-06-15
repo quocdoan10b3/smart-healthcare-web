@@ -32,7 +32,7 @@ const AddUseMedicine = () => {
   const fetchMedicines = async () => {
     // eslint-disable-next-line no-useless-catch
     try {
-      const response = await getMedicinesApi(currentPage, '')
+      const response = await getMedicinesApi(currentPage, '', 6)
       setTotalPages(response.data.totalPages)
       setListMedicine(response.data.items)
     } catch (err) {
