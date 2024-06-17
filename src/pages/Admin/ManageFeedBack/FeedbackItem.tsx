@@ -140,7 +140,7 @@ const FeedbackItem = ({ feedback, refreshFeedbacks }: PropsType) => {
         </div>
       </div>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Xác nhận cập nhật</DialogTitle>
+        <DialogTitle>Xác nhận xóa câu hỏi đánh giá</DialogTitle>
         <DialogContent>
           <DialogContentText>Bạn có chắc chắn khi xóa câu hỏi đánh giá này?</DialogContentText>
         </DialogContent>

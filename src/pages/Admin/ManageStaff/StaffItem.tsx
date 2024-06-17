@@ -42,7 +42,7 @@ const StaffItem = ({ staff, refreshStaff }: PropsType) => {
         </td>
       </tr>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Xác nhận cập nhật</DialogTitle>
+        <DialogTitle>Xác nhận xóa nhân viên</DialogTitle>
         <DialogContent>
           <DialogContentText>Bạn có chắc chắn khi xóa nhân viên này?</DialogContentText>
         </DialogContent>

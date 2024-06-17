@@ -70,7 +70,7 @@ const AddNewsForm = () => {
       <div className=' max-w-2xl sm:max-w-s md:max-w-sm lg:max-w-lg xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto bg-green-100 overflow-hidden shadow rounded-lg border mt-10'>
         <form>
           <div className='border-t border-gray-200 px-4 py-5 sm:p-0'>
-            <p className='text-cyan-600 text-2xl text-center mt-5 mb-5 uppercase'>THÊM TIN TỨC CHO TRANG WEB</p>
+            <p className='text-cyan-600 text-2xl text-center mt-5 mb-5 uppercase'>THÊM TIN TỨC Y TẾ</p>
             <dl className='sm:divide-y sm:divide-gray-200'>
               <div className='py-1 flex justify-center items-center gap-7 px-4'>
                 <div className='inline-flex mb-5'>

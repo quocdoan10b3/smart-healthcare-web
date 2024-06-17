@@ -151,9 +151,9 @@ const Dashboard = () => {
         </div>
       </div>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Xác nhận cập nhật</DialogTitle>
+        <DialogTitle>Xác nhận xóa tin tức</DialogTitle>
         <DialogContent>
-          <DialogContentText>Bạn có chắc chắn khi xóa câu hỏi đánh giá này?</DialogContentText>
+          <DialogContentText>Bạn có chắc chắn khi xóa tin tức này?</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color='primary'>

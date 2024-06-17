@@ -140,7 +140,7 @@ const StudentItem = ({ student, refreshStudents }: PropsType) => {
         )}
       </tr>
       <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>Xác nhận cập nhật</DialogTitle>
+        <DialogTitle>Xác nhận xóa học sinh</DialogTitle>
         <DialogContent>
           <DialogContentText>Bạn có chắc chắn khi xóa học sinh này?</DialogContentText>
         </DialogContent>
