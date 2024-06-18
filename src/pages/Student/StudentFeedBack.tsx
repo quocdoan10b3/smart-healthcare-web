@@ -10,16 +10,16 @@ import { RootState } from '@/store'
 
 const StudentFeedBack = () => {
   const user = useSelector((state: RootState) => state.auth.user)
-  const [search, setSearch] = useState<string>('')
+  const [search] = useState<string>('')
   const [listFeedbacks, setListFeedbacks] = useState<FeedbackType[]>([])
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [totalPages, setTotalPages] = useState<number>(1)
   const [newFeedback, setNewFeedback] = useState<string>('')
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearch(event.target.value as string)
-  }
+  // const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setSearch(event.target.value as string)
+  // }
   useEffect(() => {
     getListFeedbacks(currentPage, search)
   }, [currentPage, search])
