@@ -9,6 +9,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux'
 import { saveUserLogin } from '@/redux-toolkit/auth.slice'
+import Logo from '@/assets/images/logo.jpg'
 const Login = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -57,17 +58,17 @@ const Login = () => {
 
   return (
     <div
-      className='flex justify-center min-h-screen'
-      style={{
-        backgroundImage: "url('././src/assets/images/background.jpg')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center'
-      }}
+      className='flex justify-center min-h-screen bg-gradient'
+      // style={{
+      //   backgroundImage: "url('././src/assets/images/background.jpg')",
+      //   backgroundSize: 'cover',
+      //   backgroundPosition: 'center'
+      // }}
     >
       <div className='bg-gradient-to-r from-green-300 to-orange-300 w-1/3 h-2/3 m-auto rounded-xl'>
         <div className='text-center'>
           <div className='flex justify-center mt-10'>
-            <img src='././src/assets/images/logo.jpg' alt='logo' style={{ width: '30%', height: '30%' }} />
+            <img src={Logo} alt='logo' style={{ width: '30%', height: '30%' }} />
           </div>
           <h2 className='mt-5 text-blue-800 font-bold' style={{ fontSize: '21px', lineHeight: '30px' }}>
             HỆ THỐNG QUẢN LÝ Y TẾ HỌC ĐƯỜNG
