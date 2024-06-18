@@ -87,6 +87,8 @@ const MedicineItem = ({ medicine, refreshMedicines }: PropsType) => {
       if (response && response.status === 200) {
         toast.success('Nhập thuốc thành công')
         setOpen(false)
+        setQuantity(0)
+        setExpDate(null)
         refreshMedicines()
       } else {
         console.error(`Nhập thuốc thất bại:`, response)

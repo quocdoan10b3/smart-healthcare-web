@@ -100,6 +100,13 @@ const AddStaffForm = ({ open, handleClose, refreshStaff }: PropsType) => {
           handleClose()
           toast.success('Thêm nhân viên thành công')
           refreshStaff()
+          setAddress('')
+          setDateOfBirth(null)
+          setEmail('')
+          setFullName('')
+          setGender('nam')
+          setPassword('')
+          setShowPassword(false)
         }
       } catch (err) {
         console.log(err)

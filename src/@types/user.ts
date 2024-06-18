@@ -23,3 +23,7 @@ export interface InfoAccountPut {
   email: string
   avatarUrl: string
 }
+export interface ChangePasswordType {
+  currentPassword: string
+  newPassword: string
+}

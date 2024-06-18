@@ -16,7 +16,8 @@ import ManageHistoryOutlinedIcon from '@mui/icons-material/ManageHistoryOutlined
 // import BarChartIcon from '@mui/icons-material/BarChart'
 import ViewListOutlinedIcon from '@mui/icons-material/ViewListOutlined'
 // import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined'
-import RecentActorsOutlinedIcon from '@mui/icons-material/RecentActorsOutlined';
+import RecentActorsOutlinedIcon from '@mui/icons-material/RecentActorsOutlined'
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined'
 interface PropsType {
   title: string
   to: string
@@ -169,6 +170,13 @@ const StaffSidebar = () => {
               selected={selected}
               setSelected={setSelected}
             /> */}
+            <Item
+              title='Đổi mật khẩu'
+              to='/s-change-password'
+              icon={<SettingsOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
           </Box>
         </Menu>
       </ProSidebar>

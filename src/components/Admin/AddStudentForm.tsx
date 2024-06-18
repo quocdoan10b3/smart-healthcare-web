@@ -109,6 +109,14 @@ const AddStudentForm = ({ open, handleClose, refreshStudents }: PropsType) => {
           handleClose()
           toast.success('Thêm học sinh thành công')
           refreshStudents()
+          setAddress('')
+          setClasses('')
+          setDateOfBirth(null)
+          setEmail('')
+          setFullName('')
+          setGender('nam')
+          setPassword('')
+          setShowPassword(false)
         }
       } catch (err) {
         console.log(err)

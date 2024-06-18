@@ -107,6 +107,11 @@ const AddMedicineForm = () => {
           toast.success('Nhập thuốc thành công')
           if (role && role.toUpperCase() === 'ADMIN') navigate('/admin-manage-medicines')
           else navigate('/view-medicines')
+          setAvatarUrl('https://minio.whitemage.fun/healthcare/medicinebox.jpg')
+          setEffect('')
+          setQuantity(0)
+          setExpDate(null)
+          setName('')
         } else {
           console.error(`Nhập thuốc thất bại:`, response)
         }

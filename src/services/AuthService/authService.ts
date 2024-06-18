@@ -1,4 +1,4 @@
-import { LoginType } from '@/@types/user'
+import { ChangePasswordType, LoginType } from '@/@types/user'
 import http from '@/utils/http'
 const controller = new AbortController()
 export const postLogin = (body: LoginType) => {
@@ -22,4 +22,7 @@ export const getStaffIdByUserIdApi = (userId: number) => {
 }
 export const deleteUserApi = (userId: number) => {
   return http.delete(`api/user/${userId}`)
+}
+export const changePasswordApi = (body: ChangePasswordType) => {
+  return http.post(`api/user/change-password`, body, { signal: controller.signal })
 }

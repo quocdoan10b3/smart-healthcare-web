@@ -15,6 +15,7 @@ import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined'
 // import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformationOutlined'
 import ManageHistoryOutlinedIcon from '@mui/icons-material/ManageHistoryOutlined'
 import ViewListOutlinedIcon from '@mui/icons-material/ViewListOutlined'
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined'
 interface PropsType {
   title: string
   to: string
@@ -150,6 +151,13 @@ const StudentSidebar = () => {
               title='Đánh giá và hỏi đáp'
               to='/student-feedback'
               icon={<FeedbackOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title='Đổi mật khẩu'
+              to='/change-password'
+              icon={<SettingsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />

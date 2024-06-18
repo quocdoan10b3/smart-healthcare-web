@@ -38,6 +38,7 @@ import AddNewsForm from './components/Admin/AddNewsForm'
 import AdminManageStaff from './pages/Admin/ManageStaff/AdminManageStaff'
 import AdminHistoryImport from './pages/Admin/ManageMedicines/AdminHistoryImport'
 import StaffInfoPersonal from './pages/Staff/StaffInfoPersonal'
+import ChangePassword from './pages/ChangePassword'
 function App() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -101,6 +102,7 @@ function App() {
           <Route path='/student-view-medicines' element={<StudentViewMedicines />} />
           <Route path='/student-medicines-usage-history' element={<StudentMedicinesUsageHistory />} />
           <Route path='/student-feedback' element={<StudentFeedBack />} />
+          <Route path='/change-password' element={<ChangePassword />} />
         </Route>
         <Route path='' element={<StaffLayout />}>
           <Route path='/staff' element={<Dashboard />} />
@@ -117,6 +119,7 @@ function App() {
           <Route path='/staff-add-medicine' element={<AddMedicineForm />} />
           <Route path='/manage-feedback' element={<AdminManageFeedBack />} />
           <Route path='/staff-info-personal' element={<StaffInfoPersonal />} />
+          <Route path='/s-change-password' element={<ChangePassword />} />
         </Route>
       </Routes>
       <ToastContainer

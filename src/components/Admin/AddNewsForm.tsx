@@ -1,4 +1,3 @@
-// AddMedicineForm.js or AddMedicineForm.tsx
 import { Button, TextField } from '@mui/material'
 import { useRef, useState } from 'react'
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto'
@@ -57,6 +56,9 @@ const AddNewsForm = () => {
           toast.success('Thêm tin tức thành công')
           if (role && role.toUpperCase() === 'ADMIN') navigate('/admin')
           else navigate('/staff')
+          setTitle('')
+          setContent('')
+          setAvatarUrl('https://minio.whitemage.fun/healthcare/virus.jpg')
         } else {
           console.error(`Thất bại:`, response)
         }
