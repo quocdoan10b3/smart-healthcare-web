@@ -27,3 +27,8 @@ export interface ChangePasswordType {
   currentPassword: string
   newPassword: string
 }
+export interface ResetPasswordType {
+  username: string
+  email: string
+  fullName: string
+}

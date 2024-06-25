@@ -1,3 +1,5 @@
+import { ResetPasswordType } from '@/@types/user'
+import { resetPasswordApi } from '@/services/AuthService/authService'
 import { Button, TextField } from '@mui/material'
 import { Formik } from 'formik'
 import { Link, useNavigate } from 'react-router-dom'
@@ -19,10 +21,19 @@ const ForgotPassword = () => {
   const navigate = useNavigate()
 
   const handleFormSubmit = async (values: { username: string; fullName: string; email: string }) => {
+    const reset: ResetPasswordType = {
+      email: values.email,
+      fullName: values.fullName,
+      username: values.username
+    }
     try {
-      console.log('Submitted values:', values)
-      toast.success('Yêu cầu đặt lại mật khẩu đã được gửi thành công!')
-      navigate('/')
+      const response = await resetPasswordApi(reset)
+      if (response && response.status === 200) {
+        toast.success('Yêu cầu đặt lại mật khẩu đã được gửi thành công!')
+        navigate('/')
+      } else {
+        toast.error('Tài khoản, họ tên, email không trùng khớp khi đăng kí!')
+      }
     } catch (error) {
       //   toast.error('Có lỗi xảy ra, vui lòng thử lại!')
       toast.error('Tài khoản, họ tên, email không trùng khớp khi đăng kí!')

@@ -80,9 +80,11 @@ const AddHealthInsurance = () => {
         toast.success('Thêm bảo hiểm y tế cho học sinh thành công')
         navigate('/health-insurances')
       } else {
+        toast.error('Thêm bảo hiểm y tế cho học sinh thất bại')
         console.error(`Thêm bảo hiểm y tế cho học sinh thất bại:`, response)
       }
     } catch (error) {
+      toast.error('Thêm bảo hiểm y tế cho học sinh thất bại')
       console.log(`Thêm bảo hiểm y tế cho học sinh thất bại:`, error)
     }
   }
