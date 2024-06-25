@@ -128,7 +128,7 @@ const Login = () => {
                     </IconButton>
                   </div>
                   <div className='flex justify-end mb-7'>
-                    <Link to='/'>Quên mật khẩu?</Link>
+                    <Link to='/forgot-password'>Quên mật khẩu?</Link>
                   </div>
                   <div className='flex justify-center'>
                     <Button

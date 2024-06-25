@@ -39,6 +39,7 @@ import AdminManageStaff from './pages/Admin/ManageStaff/AdminManageStaff'
 import AdminHistoryImport from './pages/Admin/ManageMedicines/AdminHistoryImport'
 import StaffInfoPersonal from './pages/Staff/StaffInfoPersonal'
 import ChangePassword from './pages/ChangePassword'
+import ForgotPassword from './components/Authenticate/ForgotPassword'
 function App() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -73,6 +74,7 @@ function App() {
       <Routes>
         <Route path='' element={<GuestRoute />}>
           <Route path='/' element={<Login />} />
+          <Route path='/forgot-password' element={<ForgotPassword />} />
         </Route>
         {/* <Route path='' element={<AuthenticationRoute />}>
           <Route path='/home-page' element={<MainLayout page={<HomePage />} />} />
