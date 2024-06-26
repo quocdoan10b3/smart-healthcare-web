@@ -48,7 +48,7 @@ const AddUseMedicine = () => {
   }
   useEffect(() => {
     fetchMedicines()
-  }, [])
+  }, [currentPage])
   console.log(student)
   return (
     <div className='p-4'>
