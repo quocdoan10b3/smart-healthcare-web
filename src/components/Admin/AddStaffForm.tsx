@@ -136,7 +136,7 @@ const AddStaffForm = ({ open, handleClose, refreshStaff }: PropsType) => {
               if (!e.target.value.trim()) {
                 setErrors((prevErrors: any) => ({
                   ...prevErrors,
-                  fullName: 'Vui lòng nhập tên học sinh'
+                  fullName: 'Vui lòng nhập tên nhân viên'
                 }))
               } else {
                 setErrors((prevErrors: any) => ({

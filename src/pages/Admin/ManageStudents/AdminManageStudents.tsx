@@ -1,12 +1,15 @@
 import HeaderAdmin from '@/components/Admin/HeaderAdmin'
-import { Button, Pagination, TextField } from '@mui/material'
+import { Button, IconButton, Pagination, TextField } from '@mui/material'
 import { ChangeEvent, useEffect, useState } from 'react'
 import StudentItem from './StudentItem'
 import AddStudentForm from '@/components/Admin/AddStudentForm'
-import { StudentType } from '@/@types/student'
-import { getAllStudentsApi } from '@/services/StudentService/studentService'
+import { AddStudentType, StudentType } from '@/@types/student'
+import { addListStudentsApi, getAllStudentsApi } from '@/services/StudentService/studentService'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
+import DriveFolderUploadOutlinedIcon from '@mui/icons-material/DriveFolderUploadOutlined'
+import { toast } from 'react-toastify'
+import { readExcelFile } from '@/utils/excelUtils'
 const AdminManageStudents = () => {
   const role = useSelector((state: RootState) => state.auth.role)
   const [search, setSearch] = useState<string>('')
@@ -46,15 +49,47 @@ const AdminManageStudents = () => {
   const refreshStudents = () => {
     getListStudents(currentPage, search)
   }
+  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      try {
+        readExcelFile(file, async (students: AddStudentType[]) => {
+          const response = await addListStudentsApi(students)
+          if (response && response.status === 200) {
+            toast.success('Thêm học sinh thành công')
+            event.target.value = ''
+            refreshStudents()
+          }
+        })
 
+        // await addListStudentsApi(listAddStudents)
+      } catch (error) {
+        console.log('Error uploading file:', error)
+      }
+    }
+  }
   return (
     <div className='p-4 '>
       <HeaderAdmin title='Quản lý danh sách học sinh' />
       <div className='flex justify-between'>
         {role && role.toUpperCase() === 'ADMIN' && (
-          <Button variant='contained' onClick={handleAddStudent} sx={{ width: 200, background: '#068124', my: 2 }}>
-            Thêm học sinh
-          </Button>
+          <>
+            <Button variant='contained' onClick={handleAddStudent} sx={{ width: 200, background: '#068124', my: 2 }}>
+              Thêm học sinh
+            </Button>
+            <input
+              accept='.xlsx, .xls'
+              style={{ display: 'none' }}
+              id='upload-file'
+              type='file'
+              onChange={handleFileChange}
+            />
+            <label htmlFor='upload-file'>
+              <IconButton color='primary' aria-label='upload file' component='span' sx={{ my: 2 }}>
+                <DriveFolderUploadOutlinedIcon />
+              </IconButton>
+            </label>
+          </>
         )}
 
         <TextField

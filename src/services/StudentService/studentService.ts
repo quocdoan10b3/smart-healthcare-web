@@ -9,6 +9,9 @@ export const getAllStudentsApi = (page: number, search: string) => {
 export const addStudentApi = (body: AddStudentType) => {
   return http.post(`api/auth/add-student`, body, { signal: controller.signal })
 }
+export const addListStudentsApi = (body: AddStudentType[]) => {
+  return http.post(`api/auth/add-list-students`, body, { signal: controller.signal })
+}
 export const getStudentByIdApi = (id: number) => {
   return http.get(`api/student/userId/${id}`, { signal: controller.signal })
 }
