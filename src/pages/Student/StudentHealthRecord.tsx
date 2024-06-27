@@ -13,7 +13,7 @@ import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDiss
 
 const StudentHealthRecord = () => {
   const user = useSelector((state: RootState) => state.auth.user)
-  const [scholastic, setScholastic] = useState<string>('N2024_2025')
+  const [scholastic, setScholastic] = useState<string>('N2023_2024')
   const [listHealthRecords, setListHealthRecords] = useState<HealthRecordType[]>([])
   const [listScholastic, setListScholastic] = useState<string[]>([])
 
@@ -66,7 +66,7 @@ const StudentHealthRecord = () => {
           <MenuItem value='N2022_2023'>2022-2023</MenuItem>
           <MenuItem value='N2021_2022'>2021-2022</MenuItem>
           <MenuItem value='N2020_2021'>2020-2021</MenuItem> */}
-          <MenuItem value='None'>Tất cả</MenuItem>
+          {/* <MenuItem value='None'>Tất cả</MenuItem> */}
           {listScholastic.map((scholastic) => (
             <MenuItem key={scholastic} value={`N${scholastic.replace('-', '_')}`}>
               {scholastic}
